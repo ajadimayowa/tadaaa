@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import style from './topbar.module.css'
 
 const TopBarUnAuth : React.FC<any> = ({buttonClicked}) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const links = [
         {title:'Go-pro', path:''},

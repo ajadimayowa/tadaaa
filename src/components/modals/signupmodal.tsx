@@ -63,7 +63,7 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                     onSubmit={handleSubmit}
                 >
                     {
-                        ({ values, handleSubmit, handleChange, errors }) => (
+                        ({ values, handleSubmit }) => (
                             <Form onSubmit={handleSubmit} className="gap-0">
                                 {
                                     <>
@@ -150,7 +150,7 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                     onSubmit={handleSubmit}
                 >
                     {
-                        ({ handleSubmit, values, errors }) => (
+                        ({ handleSubmit, values}) => (
                             <Form onSubmit={handleSubmit} className="">
                                 {
                                     <>

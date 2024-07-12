@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SignupModal from "../components/modals/signupmodal";
 import { Button, Card } from "react-bootstrap";
 import TopBarUnAuth from "../components/bars/topbar";
