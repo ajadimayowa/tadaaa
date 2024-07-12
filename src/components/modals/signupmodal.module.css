@@ -1,0 +1,25 @@
+.left {
+display: flex;
+width: 50%;
+background-image: url('../../assets/svgs/home/reg-modal-bg.svg');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+min-height: 550px;
+}
+
+.right {
+    display: flex;
+    width: 50%;
+}
+
+@media (max-width: 576px) {
+   .left{
+    display: none;
+   } 
+
+   .right {
+    display: flex;
+    width: 100%;
+}
+}

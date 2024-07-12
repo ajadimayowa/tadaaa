@@ -1,0 +1,20 @@
+// custom.scss
+$primary: #4A90E2;
+$secondary: #50E3C2;
+$light: #ffffff;
+$grey: #e5dfdf;
+
+.form-control-outline {
+    border: 2px solid var(--bs-primary); /* Use Bootstrap's primary color variable */
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  .form-control-outline:focus {
+    border-color: var(--bs-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem #4a91e269; /* Primary color shadow */
+  }
+
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
