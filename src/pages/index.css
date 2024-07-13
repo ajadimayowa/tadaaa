@@ -1,0 +1,57 @@
+.cont {
+   height: 80vh;
+}
+.sectOne {
+    background-color : #4A90E2;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sectOne .left h5 {
+  font-size: 40px;
+}
+
+.sectOne .left {
+  
+    width: 50%;
+}
+
+
+.sectOne .right img {
+   
+    height: 400px;
+}
+
+@media (max-width: 576px) {
+    .cont {
+        height: 80vh;
+     }
+
+    .sectOne {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+     
+    }
+
+    .sectOne .left {
+        width: 100%;
+    }
+
+    .sectOne .left h5 {
+        font-size: 25px;
+      }
+
+    .sectOne .right {
+       
+        width: 100%;
+    }
+
+    
+
+    .sectOne .right img {
+       
+        height: 270px;
+    }
+}

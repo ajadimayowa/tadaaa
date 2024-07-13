@@ -4,6 +4,9 @@ $secondary: #50E3C2;
 $light: #ffffff;
 $grey: #e5dfdf;
 
+.body {
+  overflow: hidden;
+}
 .form-control-outline {
     border: 2px solid var(--bs-primary); /* Use Bootstrap's primary color variable */
     border-radius: 0.25rem;

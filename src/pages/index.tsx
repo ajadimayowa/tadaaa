@@ -1,44 +1,45 @@
 import { useState } from "react";
 import SignupModal from "../components/modals/signupmodal";
-import { Button, Card } from "react-bootstrap";
+import { Button} from "react-bootstrap";
 import TopBarUnAuth from "../components/bars/topbar";
-import { Field, Formik } from "formik";
+import team from '../assets/svgs/team.svg';
+import './index.css'
 const HomePage = () => {
-    const [regModal,setRegModal] = useState(false)
+    const [regModal, setRegModal] = useState(false)
 
-  
+
     return (
-        <div>
-            <TopBarUnAuth buttonClicked={()=>setRegModal(true)}/>
-            <div className="w-100 d-flex justify-content-center mt-5">
-                <Card className="rounded rounded-4 w-75 border border-0 shadow-sm bg-primary">
-                    <Card.Body className="d-flex align-items-center py-4 gap-3 flex-column text-light justify-content-center">
-                        <h3 className="fw-medium text-center lh-base">
-                        Get your <span className="text-secondary">Productivity </span>  Level
-                        <br/>
-                        Up By A Wider Margin.
-                        </h3>
-                        <Formik
-                        initialValues={{name:''}}
-                        onSubmit={()=>console.log('ok')}
-                        >
-                         <div className="w-100 d-flex justify-content-center">
-                         <Field id='userSearch' name="userSearch" placeholder='Search services'
-                        className="rounded-start-4 p-3 outline-0 form-control-outline w-50 border border-0 border-grey"
-                        ></Field>
-                        <Button className="bg-light rounded rounded-start-0 px-4">
-                        <i className="bi bi-search"></i>
-                        </Button>
-                        </div> 
-                        
-                        </Formik>
-                        Trusted By : Apple Microsoft
-                    </Card.Body>
-                </Card>
+        <div className="">
+            <div className="cont bg-primary text-light">
+                <TopBarUnAuth buttonClicked={() => setRegModal(true)} />
+                <div className={`sectOne gap-5 mt-4 px-4`}>
+                    <div className="left bg-primary">
+                        <h5 className="fw-bolder">
+                            Empowering Nigerians with
+                            <br />
+                            Remote Work Opportunities
+                            <br />
+                            and Connections.
+                        </h5>
+                        <p>
+                            Work9ja connects Nigerian professionals
+                            with remote
+                            work opportunities, <br/> providing a seamless platform
+                            for job seekers and  employers <br /> to   collaborate
+                            and thrive in a flexible work environment.
+                        </p>
+                        <Button className="bg-secondary text-light"
+                        style={{minWidth:'10em', minHeight:'3.5em'}}
+                        >Get Started</Button>
+                    </div>
+                    <div className="right">
+                        <img className="w-100" src={team}/>
+                    </div>
+                </div>
 
             </div>
-            <SignupModal on={regModal} off={()=>setRegModal(false)}  />
-                
+            <SignupModal on={regModal} off={() => setRegModal(false)} />
+
         </div>
     )
 }
