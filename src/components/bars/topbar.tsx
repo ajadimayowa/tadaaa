@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import style from './topbar.module.css';
 import logo from '../../assets/svgs/logo-wok9ja.svg'
 
-const TopBarUnAuth: React.FC<any> = ({ buttonClicked }) => {
+const TopBarUnAuth: React.FC<any> = ({ buttonClicked, togSide }) => {
     // const navigate = useNavigate();
 
     const links = [
@@ -11,10 +11,10 @@ const TopBarUnAuth: React.FC<any> = ({ buttonClicked }) => {
         { title: 'Explore', path: '' },
     ]
     return (
-        <div className={`d-flex px-4 bg-primary text-light align-items-center navbar justify-content-between w-100 ${style.topBar}`}
+        <div className={`navbar sticky-top px-4 bg-primary text-light align-items-center justify-content-between w-100 ${style.topBar}`}
             style={{ minHeight: '70px' }}>
+               <span onClick={togSide}> <i className="menu bi bi-list fs-1" id="menu" role="button"></i> </span>
             <img className="" src={logo} height={27} />
-            {/* <h4>wok9ja<span className="text-secondary">!</span></h4> */}
             <div className="d-flex gap-5 align-items-center">
                 <ul className="gap-5 m-0 p-0">
                     {
@@ -23,7 +23,6 @@ const TopBarUnAuth: React.FC<any> = ({ buttonClicked }) => {
                         ))
                     }
                 </ul>
-                <span className="fw-medium" role="button" onClick={buttonClicked}>Sign in</span>
                 <div className="d-flex gap-3 align-items-center">
                 <Button className=" bg-secondary px-3 fw-bold text-light" onClick={buttonClicked}>Join</Button>
                 <i className="bi bi-globe " role="button"></i>

@@ -92,7 +92,7 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                                             <ErrorMessage
                                                 name="userEmail"
                                                 component="div"
-                                                className="text-danger fw-lighter" />
+                                                className="text-danger fw-medium" />
                                         </div>
 
 
@@ -108,7 +108,7 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                                             <ErrorMessage
                                                 name="userPassword"
                                                 component="div"
-                                                className="text-danger fw-lighter" />
+                                                className="text-danger fw-medium" />
                                         </div>
 
                                         <div className="mt-3 w-100 text-center">
@@ -175,7 +175,7 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                                             <ErrorMessage
                                                 name="userName"
                                                 component="div"
-                                                className="text-danger fw-lighter" />
+                                                className="text-danger fw-medium" />
                                         </div>
                                         {/* <Form.Label className="mt-4" htmlFor="email">
                                         Username

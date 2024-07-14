@@ -1,31 +1,47 @@
-.cont {
-   height: 80vh;
-}
-.sectOne {
-    background-color : #4A90E2;
-    width: 100%;
+.section-one {
     display: flex;
+    min-height: 70vh;
     flex-wrap: wrap;
-}
-
-.sectOne .left h5 {
-  font-size: 40px;
-}
-
-.sectOne .left {
   
+}
+
+.section-one .left {
+ 
+   width: 50%;
+   padding-left: 5%;
+}
+
+.section-one .right {
+    /* background-color: yellow; */
     width: 50%;
-}
+ }
 
-
-.sectOne .right img {
-   
+ .section-one .right img {
     height: 400px;
-}
+ }
 
 @media (max-width: 576px) {
+
+    .section-one .left {
+        /* background-color: green; */
+        width: 100%;
+        padding-left: 0%;
+     }
+     
+     .section-one .right {
+        
+        display: flex;
+         width: 100%;
+      }
+
+      .section-one .right img {
+        height: 300px;
+     }
+
+
     .cont {
-        height: 80vh;
+        height: 50vh;
+        background-color: green;
      }
 
     .sectOne {
