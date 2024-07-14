@@ -138,7 +138,7 @@ const handlePrevService = (currentServ:number)=>{
                         style={{ minWidth: '10em', minHeight: '3.5em', maxWidth: '10em' }}
                     >Get Started</Button>
                 </div>
-                <div className="right d-flex mt-4">
+                <div className="right d-flex mt-4 justify-content-center">
                     <img className="" src={team} />
                 </div>
 
@@ -147,12 +147,12 @@ const handlePrevService = (currentServ:number)=>{
             <div className="w-100 mt-3 section-two">
 
                 <h4 className="text-center">Available Services</h4>
-                <div className="w-100 d-flex gap-3 justify-content-center align-items-center mt-4">
+                <div className="w-100 d-flex gap-2 px-2 justify-content-center align-items-center mt-4">
                     <i className="bi bi-chevron-left" role="button" onClick={()=>handlePrevService(currentService)}></i>
                     <div className="d-flex gap-3 justify-content-center" style={{flexWrap:'wrap'}}>
                     {
                         services.map((service) => 
-                        <Card  className="p-3 border border-0 shadow  gap-3" style={{ minHeight: '9em', maxHeight: '9em', minWidth:'9em', maxWidth:'9em', transition:'all' }}>
+                        <Card  className="p-3 border border-0 shadow  gap-3" style={{ minHeight: '9em', maxHeight: '9em', minWidth:'8em', maxWidth:'8em'}}>
                             <i className={service[currentService].icon}></i>
                             <h5>{service[currentService].title}</h5>
                         </Card>)
