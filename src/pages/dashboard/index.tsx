@@ -1,15 +1,15 @@
 import { useState } from "react";
-import SignupModal from "../components/modals/signupmodal";
+import SignupModal from "../../components/modals/signupmodal";
 import { Button, Card, FormControl } from "react-bootstrap";
-import TopBarUnAuth from "../components/bars/topbar";
+import TopBarUnAuth from "../../components/bars/topbar";
 import team from '../assets/svgs/team.svg';
-import './index.css'
-import SideBarUnAuth from "../components/bars/sidebar";
-const HomePage = () => {
+import '../index.css'
+import SideBarUnAuth from "../../components/bars/sidebar";
+const Dashboard = () => {
     const [regModal, setRegModal] = useState(false);
     const [onSideNav, setOnSideNav] = useState(false);
     const [currentService, setCurrentService] = useState(0);
-    const currentServicePopular = 0;
+    const currentServicePopular =0;
     const services = [
         {
             category: 'all-service',
@@ -115,7 +115,6 @@ const HomePage = () => {
     }
 
 
-
     return (
         <div className="container-fluid p-0 m-0 w-100" style={{ zIndex: 5 }}>
             <SideBarUnAuth onSignIn={() => { setRegModal(true); setOnSideNav(!onSideNav) }} toggleSideBar={() => setOnSideNav(!onSideNav)} onSideBar={onSideNav} />
@@ -192,9 +191,9 @@ const HomePage = () => {
                 <h3 className="text-center">Most Wanted Services</h3>
                 <div className="w-100 d-flex gap-2 px-2 justify-content-center align-items-center mt-4">
                     {/* <i className="bi bi-chevron-left" role="button" onClick={() => handlePrevServicePop(currentServicePopular)}></i> */}
-                    <div className="d-flex gap-3 w-100  align-items-center"
+                    <div className="d-flex gap-3 w-100 px-2  align-items-center"
                         id="services"
-                        style={{ transition: 'all 1s ease-in', overflowX: 'scroll', maxWidth: '100%' }}>
+                        style={{ transition: 'all 1s ease-in', overflowX: 'scroll' }}>
                         {
                             porpularServices[currentServicePopular].gigs.map((serv: any) => (
                                 <div className="d-flex flex-column align-items-center gap-2"
@@ -272,4 +271,4 @@ const HomePage = () => {
         </div>
     )
 }
-export default HomePage;
+export default Dashboard;

@@ -1,5 +1,6 @@
 export interface IUserRegForm {
-userEmail? : string;
-userPassword? : string;
-userName? : string ;
+fullName : string;
+email : string;
+password : string;
+userName : string ;
 }

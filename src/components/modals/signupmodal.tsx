@@ -1,25 +1,28 @@
 import React from "react";
 import { useState } from "react";
-import { Button, Modal,Spinner } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import style from '../modals/signupmodal.module.css'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from 'yup';
 
 
 
-const SignupModal: React.FC<any> = ({ on, off}) => {
+const SignupModal: React.FC<any> = ({ on, off }) => {
     const [loading, setLoading] = useState(false);
+    
 
 
     const [userData, setUserData] = useState({
-        userEmail: '',
-        userPassword: '',
+        fullName: '',
+        email: '',
+        password: '',
         userName: ''
     });
 
     const stepOneValSchema = yup.object({
-        userEmail: yup.string().email().required('Email is required').label('Email'),
-        userPassword: yup.string()
+        fullName :  yup.string().min(3).required().label('Fullname'),
+        email: yup.string().email().required('Email is required').label('Email'),
+        password: yup.string()
             .min(8, 'Password must be at least 8 characters')
             .matches(/[A-Z]/, 'Password must have at least one uppercase letter')
             .matches(/[a-z]/, 'Password must have at least one lowercase letter')
@@ -51,7 +54,7 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
 
 
     const StepOne: React.FC<any> = ({ data, next, offModal }) => {
-
+        const [secure,setSecure] = useState(false);
         const handleSubmit = (val: any) => {
             next(val)
         }
@@ -72,15 +75,32 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                                             role="button"
                                             onClick={() => {
                                                 offModal(); setUserData({
-                                                    userEmail: '',
-                                                    userPassword: '',
-                                                    userName: ''
+                                                    fullName: '',
+                                                    email: '',
+                                                    password: '',
+                                                    userName: '',
                                                 })
                                             }}
                                         >Back</p>
                                         <h5 className="fw-bold">
                                             Continue with your email
                                         </h5>
+
+                                        <label className="mt-3 fw-bold" htmlFor="userEmail">
+                                            Fullname
+                                        </label>
+                                        <div>
+                                            <Field
+                                                value={values.fullName}
+                                                placeholder='Lagbaja Tamedo'
+                                                className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
+                                                id='fullName' name='fullName' />
+                                            <ErrorMessage
+                                                name="fullName"
+                                                component="div"
+                                                className="text-danger fw-medium" />
+                                        </div>
+
                                         <label className="mt-3 fw-bold" htmlFor="userEmail">
                                             Email
                                         </label>
@@ -88,25 +108,31 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                                             <Field
                                                 value={values.userEmail}
                                                 className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
-                                                id='userEmail' name='userEmail' />
+                                                id='email' name='email' />
                                             <ErrorMessage
-                                                name="userEmail"
+                                                name="email"
                                                 component="div"
                                                 className="text-danger fw-medium" />
                                         </div>
 
 
 
-                                        <label className="mt-3 fw-bold" htmlFor="userPassword">
+                                        <label className="d-flex justify-content-between mt-3 w-100 fw-bold" htmlFor="password">
                                             Password
+                                       {
+                                            secure?< i className="bi bi-eye-slash-fill px-3" onClick={()=>{setSecure(!secure)}}></i>:
+                                            < i className="bi bi-eye-fill px-3" onClick={()=>{setSecure(!secure)}}></i>
+                                            }
+                                           
                                         </label>
-                                        <div>
+                                        <div className="mt-1">
+                                           
                                             <Field
                                                 className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
-                                                id='userPassword' name='userPassword' />
+                                                id='password' name='password' type={secure?'password':'text'} />
 
                                             <ErrorMessage
-                                                name="userPassword"
+                                                name="password"
                                                 component="div"
                                                 className="text-danger fw-medium" />
                                         </div>
@@ -150,7 +176,7 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                     onSubmit={handleSubmit}
                 >
                     {
-                        ({ handleSubmit, values}) => (
+                        ({ handleSubmit, values }) => (
                             <Form onSubmit={handleSubmit} className="">
                                 {
                                     <>
@@ -188,8 +214,8 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                                                 type="submit"
                                                 className="outline-0 w-100 border border-0  bg-dark text-light"
                                             >{
-                                                loading?<Spinner size="sm"/> : 'Submit'
-                                            }</Button>
+                                                    loading ? <Spinner size="sm" /> : 'Submit'
+                                                }</Button>
                                         </div>
                                     </>
                                 }
@@ -225,7 +251,7 @@ const SignupModal: React.FC<any> = ({ on, off}) => {
                             className={`rounded-start  p-0 m-0 justify-content-center align-items-center ${style.left}`}
 
                         >
-                           
+
                         </div>
                         <div
 

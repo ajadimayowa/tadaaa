@@ -19,5 +19,54 @@ $grey: #e5dfdf;
     box-shadow: 0 0 0 0.2rem #4a91e269; /* Primary color shadow */
   }
 
+  @media (max-width: 576px) {
+    .niramit-regular {
+      font-family: "Niramit", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+    .niramit-medium {
+      font-family: "Niramit", sans-serif;
+      font-weight: 500;
+      font-style: normal;
+    }
+    
+    .niramit-semibold {
+      font-family: "Niramit", sans-serif;
+      font-weight: 600;
+      font-style: normal;
+    }
+    
+    .niramit-bold {
+      font-family: "Niramit", sans-serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    p {
+      font-family: "Niramit", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    h5 {
+      font-family: "Niramit", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    h3 {
+      font-family: "Niramit", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    .card {
+      width: 50px;
+    }
+}
+
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
