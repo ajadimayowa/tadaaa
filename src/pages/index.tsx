@@ -1,15 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignupModal from "../components/modals/signupmodal";
 import { Button, Card, FormControl } from "react-bootstrap";
 import TopBarUnAuth from "../components/bars/topbar";
 import team from '../assets/svgs/team.svg';
 import './index.css'
 import SideBarUnAuth from "../components/bars/sidebar";
+import LoginModal from "../components/modals/loginmodal";
+import { useNavigate } from "react-router-dom";
 const HomePage = () => {
+    const navigate = useNavigate()
+    const token: string = localStorage.getItem('userToken') || ''
     const [regModal, setRegModal] = useState(false);
+    const [loginModal, setLoginModal] = useState(false);
     const [onSideNav, setOnSideNav] = useState(false);
     const [currentService, setCurrentService] = useState(0);
     const currentServicePopular = 0;
+
+    const LoadingPage = ()=>{
+
+        useEffect(() => {
+            token && navigate('/home', { replace: true, preventScrollReset: true })
+        }, [token])
+
+        return (
+            <div>loading</div>
+        )
+    }
+
+   
     const services = [
         {
             category: 'all-service',
@@ -118,23 +136,24 @@ const HomePage = () => {
 
     return (
         <div className="container-fluid p-0 m-0 w-100" style={{ zIndex: 5 }}>
-            <SideBarUnAuth onSignIn={() => { setRegModal(true); setOnSideNav(!onSideNav) }} toggleSideBar={() => setOnSideNav(!onSideNav)} onSideBar={onSideNav} />
-            <TopBarUnAuth buttonClicked={() => setRegModal(true)} togSide={() => setOnSideNav(!onSideNav)} />
+            {
+                token? <LoadingPage/> :
+                <>
+                <SideBarUnAuth onSignIn={() => { setRegModal(true); setOnSideNav(!onSideNav) }} toggleSideBar={() => setOnSideNav(!onSideNav)} onSideBar={onSideNav} />
+            <TopBarUnAuth buttonClicked={() => setLoginModal(true)} togSide={() => setOnSideNav(!onSideNav)} />
             <div className="w-100 section-one bg-primary text-light px-4">
 
                 <div className="left d-flex flex-column mt-4 gap-2">
                     <h5 className="fw-bolder fs-1">
                         Empowering Nigerians with
-                        <br />
                         Remote Work Opportunities
-                        <br />
                         and Connections.
                     </h5>
                     <p>
                         Work9ja connects Nigerian professionals
                         with remote
-                        work opportunities, <br /> providing a seamless platform
-                        for job seekers and  employers <br /> to   collaborate
+                        work opportunities, providing a seamless platform
+                        for job seekers and  employers to   collaborate
                         and thrive in a flexible work environment.
                     </p>
                     <form className="d-flex justify-content-end align-items-center" style={{ position: 'relative' }}>
@@ -269,6 +288,9 @@ const HomePage = () => {
             </div>
 
             <SignupModal on={regModal} off={() => setRegModal(false)} />
+            <LoginModal on={loginModal} off={() => setLoginModal(false)} />
+                </>
+            }
         </div>
     )
 }

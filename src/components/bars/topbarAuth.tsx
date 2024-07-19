@@ -24,8 +24,6 @@ const TopBarAuth: React.FC<any> = ({ togSide }) => {
                 </ul>
                 <div className="d-flex gap-3 align-items-center">
                 <i className="bi bi-person-circle p-0" style={{fontSize:'1.3em'}}></i>
-                {/* <Button className=" bg-secondary px-3 fw-bold text-light" onClick={buttonClicked}>Join</Button> */}
-                {/* <i className="bi bi-globe " role="button"></i> */}
                 </div>
                 
                 

@@ -1,9 +1,15 @@
 import React from "react";
 import style from './sidebar.module.css';
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-const SideBarUnAuth: React.FC<any> = ({ onSideBar, toggleSideBar, onSignIn }) => {
+const SideBarAuth: React.FC<any> = ({ onSideBar, toggleSideBar}) => {
+    const navigate = useNavigate();
 
+    const handleLogout = () => {
+        navigate('/', { replace: true })
+        localStorage.clear()
+    }
     const links = [
         { title: 'Go-pro', path: '' },
         { title: 'Explore', path: '' },
@@ -22,8 +28,8 @@ const SideBarUnAuth: React.FC<any> = ({ onSideBar, toggleSideBar, onSignIn }) =>
                     ))
 
                 }
+                <Button onClick={handleLogout} variant="outline border border-light text-light">Logout</Button>
                 
-                <Button onClick={() => onSignIn()} className="fw-medium text-light bg-secondary" style={{ maxWidth: '8em', minWidth: '8em' }}>Sign up</Button>
             </ul>
 
 
@@ -31,4 +37,4 @@ const SideBarUnAuth: React.FC<any> = ({ onSideBar, toggleSideBar, onSignIn }) =>
     )
 
 }
-export default SideBarUnAuth;
+export default SideBarAuth;

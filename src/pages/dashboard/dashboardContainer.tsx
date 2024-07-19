@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import SideBarUnAuth from "../../components/bars/sidebar";
 import { useState } from "react";
 import TopBarAuth from "../../components/bars/topbarAuth";
+import SideBarAuth from "../../components/bars/sidebarAuth";
 
 const DashboardContainer = ()=>{
     // const [regModal, setRegModal] = useState(false);
@@ -14,9 +14,9 @@ const DashboardContainer = ()=>{
             <TopBarAuth togSide={() => setOnSideNav(!onSideNav)} />
             </div>
             <div>
-            <SideBarUnAuth  toggleSideBar={() => setOnSideNav(!onSideNav)} onSideBar={onSideNav} />
+            <SideBarAuth  toggleSideBar={() => setOnSideNav(!onSideNav)} onSideBar={onSideNav} />
             </div>
-            <main>{<Outlet/>}</main>
+            <main className="p-2">{<Outlet/>}</main>
             <div>footer</div>
         </div>
     )

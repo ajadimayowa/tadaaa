@@ -24,7 +24,7 @@ const TopBarUnAuth: React.FC<any> = ({ buttonClicked, togSide }) => {
                     }
                 </ul>
                 <div className="d-flex gap-3 align-items-center">
-                <Button className=" bg-secondary px-3 fw-bold text-light" onClick={buttonClicked}>Join</Button>
+                <Button className=" bg-secondary px-3 fw-bold text-light" onClick={buttonClicked}>Login</Button>
                 <i className="bi bi-globe " role="button"></i>
                 </div>
                 
