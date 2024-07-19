@@ -19,7 +19,7 @@ const HomePage = () => {
     const LoadingPage = ()=>{
 
         useEffect(() => {
-            token && navigate('/home', { replace: true, preventScrollReset: true })
+            token && navigate('/app', { replace: true, preventScrollReset: true })
         }, [token])
 
         return (
@@ -140,7 +140,10 @@ const HomePage = () => {
                 token? <LoadingPage/> :
                 <>
                 <SideBarUnAuth onSignIn={() => { setRegModal(true); setOnSideNav(!onSideNav) }} toggleSideBar={() => setOnSideNav(!onSideNav)} onSideBar={onSideNav} />
-            <TopBarUnAuth buttonClicked={() => setLoginModal(true)} togSide={() => setOnSideNav(!onSideNav)} />
+            <TopBarUnAuth 
+            buttonClicked={() => setLoginModal(true)} 
+            signUpClicked={() => setRegModal(true)}
+            togSide={() => setOnSideNav(!onSideNav)} />
             <div className="w-100 section-one bg-primary text-light px-4">
 
                 <div className="left d-flex flex-column mt-4 gap-2">
@@ -182,8 +185,8 @@ const HomePage = () => {
                     <div className="d-flex gap-3  justify-content-center align-items-center"
                         style={{ flexWrap: 'wrap', transition: 'all 1s ease-in' }}>
                         {
-                            services[currentService].gigs.map((serv: any) => (
-                                <div className="d-flex flex-column align-items-center gap-2"
+                            services[currentService].gigs.map((serv: any, index:number) => (
+                                <div key={index} className="d-flex flex-column align-items-center gap-2"
                                     style={{ maxWidth: '7em', maxHeight: '10em', }}>
                                     <Card className="shadow-lg border-0"
                                         style={{ minWidth: '7em', minHeight: '7em' }}>
@@ -215,8 +218,8 @@ const HomePage = () => {
                         id="services"
                         style={{ transition: 'all 1s ease-in', overflowX: 'scroll', maxWidth: '100%' }}>
                         {
-                            porpularServices[currentServicePopular].gigs.map((serv: any) => (
-                                <div className="d-flex flex-column align-items-center gap-2"
+                            porpularServices[currentServicePopular].gigs.map((serv: any, index:number) => (
+                                <div key={index} className="d-flex flex-column align-items-center gap-2"
                                     style={{ minWidth: '10em', maxHeight: '15em', minHeight: '15em' }}>
                                     <Card className="shadow-sm border-0"
                                         style={{ minWidth: '10em', minHeight: '14em', backgroundColor: serv.color }}>
@@ -247,8 +250,8 @@ const HomePage = () => {
 
             <div className="w-100 mt-5 section-5">
                 {
-                    ourValues.map((values) =>
-                        <div className="px-2 gap-3 d-flex flex-column">
+                    ourValues.map((values, index:number) =>
+                        <div key={index} className="px-2 gap-3 d-flex flex-column">
                             <div className="d-flex gap-2 align-items-center">
                                 <i className={`bi ${values.icon}`} style={{ fontSize: '1.7em' }}></i>
                                 <h5>{values.title}</h5>

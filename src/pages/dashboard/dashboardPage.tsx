@@ -1,9 +1,13 @@
-import { useState } from "react";
+
 import { Button, Card } from "react-bootstrap";
-import { Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = () => {
-    const [addTask, setAddTask] = useState(false)
+    const navigate = useNavigate();
+    const user = localStorage.getItem('loggedInUser') || ''
+    const username = JSON.parse(user).userName
+
+    // const [addTask, setAddTask] = useState(false)
     const currentServicePopular = 0;
     const porpularServices = [
         {
@@ -24,7 +28,7 @@ const DashboardPage = () => {
         <div className="container-fluid w-100">
             <div className="d-flex justify-content-center w-100">
                 <Card className="shadow-sm border-0 w-100"
-                    style={{ minHeight: '20em', backgroundColor: '#134B70' }}>
+                    style={{ minHeight: '20em', backgroundColor: '#fff' }}>
                     <Card.Body className="d-flex text-light gap-3 flex-column align-items-center justify-content-center">
                         <div className="px-2 gap-1 d-flex flex-column m-0 w-100 align-items-center rounded py-2"
                             style={{ backgroundColor: '#508C9B' }}
@@ -66,7 +70,7 @@ const DashboardPage = () => {
 
             <div className="w-100 text-center mt-3" >
                 <Button
-                    onClick={() => setAddTask(true)}
+                    onClick={() => navigate(`create-service/${username}`)}
                     className="text-primary bg-light shadow-lg"
                     style={{ fontSize: '2em', height: '2em', width: '2em', borderRadius: '2em' }}>+</Button>
                 <p className="mt-2 fw-bold">Add New</p>
@@ -85,8 +89,8 @@ const DashboardPage = () => {
                 id="services"
                 style={{ overflowX: 'scroll', maxWidth: '100%' }}>
                 {
-                    porpularServices[currentServicePopular].gigs.map((serv: any) => (
-                        <div className="d-flex flex-column align-items-center gap-2"
+                    porpularServices[currentServicePopular].gigs.map((serv: any, index) => (
+                        <div key={index} className="d-flex flex-column align-items-center gap-2"
                             style={{ minWidth: '10em', maxHeight: '15em', minHeight: '15em' }}>
                             <Card className="shadow-sm border-0"
                                 style={{ minWidth: '10em', minHeight: '14em', backgroundColor: serv.color }}>
@@ -103,9 +107,6 @@ const DashboardPage = () => {
                     ))
                 }
             </div>
-            <Modal show={addTask}>
-
-            </Modal>
         </div>
     )
 

@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import style from './topbar.module.css';
 import logo from '../../assets/svgs/logo-wok9ja.svg'
 
-const TopBarUnAuth: React.FC<any> = ({ buttonClicked, togSide }) => {
+const TopBarUnAuth: React.FC<any> = ({ buttonClicked, togSide, signUpClicked }) => {
     // const navigate = useNavigate();
 
     const links = [
@@ -18,10 +18,12 @@ const TopBarUnAuth: React.FC<any> = ({ buttonClicked, togSide }) => {
             <div className="d-flex gap-5 align-items-center">
                 <ul className="gap-5 m-0 p-0">
                     {
-                        links.map(link => (
-                            <li className="list-group-item fw-medium" role="button">{link.title}</li>
+                        links.map((link,index) => (
+                            <li key={index} className="list-group-item fw-medium" role="button">{link.title}</li>
                         ))
+                        
                     }
+                    <li onClick={signUpClicked} className="list-group-item fw-medium" role="button">Sign up</li>
                 </ul>
                 <div className="d-flex gap-3 align-items-center">
                 <Button className=" bg-secondary px-3 fw-bold text-light" onClick={buttonClicked}>Login</Button>

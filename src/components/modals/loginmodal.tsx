@@ -38,20 +38,29 @@ const LoginModal: React.FC<any> = ({ on, off }) => {
         setLoading(true);
         try {
             const res = await loginUser(userCred);
-            console.log(res);
-            if (res.payload) {
-                localStorage.setItem('userToken', res.payload.userToken)
-                setToken(res.token);
-                navigate('/home', { replace: true });
+            // console.log(res);
+
+            if (res.data) {
+                let loggedInUser = JSON.stringify(res.data.payload)
+                localStorage.setItem('loggedInUser', loggedInUser)
+                localStorage.setItem('userToken', res.data.userToken)
+                setToken(res.data.userToken);
+                navigate('/app', { replace: true });
                 toast.success('Login successful');
                 setLoading(false);
-            } else {
+            }
+            else if(res.status == 400){
                 setLoading(false);
+                toast.error('Invalid Credential!')
+            }
+             else {
+                setLoading(false);
+                toast.error('Network error,try again')
             }
         } catch (error: any) {
-            toast.error('Invalid Credential!')
+            // toast.error('Invalid Credential!')
             setLoading(false);
-            console.error('Operation failed:', error.message);
+            console.error('Operation failed:', error);
         }
     }
 
@@ -135,10 +144,10 @@ const LoginModal: React.FC<any> = ({ on, off }) => {
                                                                     name="password"
                                                                     component="div"
                                                                     className="text-danger fw-medium" />
-                                                                    <label className="text-end" role="button" style={{fontSize:'0.7em'}}>
+                                                                <label className="text-end" role="button" style={{ fontSize: '0.7em' }}>
                                                                     Forgot password?
-                                                                    </label>
-                                                                
+                                                                </label>
+
                                                             </div>
 
 

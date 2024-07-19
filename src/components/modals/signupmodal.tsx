@@ -51,14 +51,14 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
                 toast.success('User created! check your mail')
                 navigate('/');
                 off();
-            } else {
+            } else if (res.status == 409) {
+                toast.error('User exist!')
                 setLoading(false);
-
             }
         } catch (error: any) {
             setLoading(false);
-            toast.error('User exist')
-            console.error('Operation failed:', error.message);
+            toast.error('Network error, kindly retry')
+            // console.error('Operation failed:', error.message);
         }
     }
 

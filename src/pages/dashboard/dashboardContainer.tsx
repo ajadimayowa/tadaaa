@@ -17,7 +17,12 @@ const DashboardContainer = ()=>{
             <SideBarAuth  toggleSideBar={() => setOnSideNav(!onSideNav)} onSideBar={onSideNav} />
             </div>
             <main className="p-2">{<Outlet/>}</main>
-            <div>footer</div>
+            <div 
+            className="text-center footer sticky-bottom py-2 mt-3" 
+            style={{ backgroundColor: '#E9F4F2', display:'absolute', bottom:'0px' }}>
+                Powered by Floath Solution Hub
+                <p>(+234)8166064166</p>
+            </div>
         </div>
     )
 

@@ -16,8 +16,8 @@ const SideBarUnAuth: React.FC<any> = ({ onSideBar, toggleSideBar, onSignIn }) =>
             </div>
             <ul className="d-flex flex-column align-items-center m-0 p-0 w-100 gap-2">
                 {
-                    links.map((nav) => (
-                        <li className="list-group-item text-center py-2 fw-medium text-light" role="button">{nav.title}</li>
+                    links.map((nav,index) => (
+                        <li key={index} className="list-group-item text-center py-2 fw-medium text-light" role="button">{nav.title}</li>
 
                     ))
 
