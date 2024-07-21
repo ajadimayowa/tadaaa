@@ -32,7 +32,9 @@ export const loginUser = async (resourceData: Resource): Promise<Resource> => {
            
         } else {
             console.error('Non-Axios error:', error);
+            console.log('error here :', error.response)
             return error.response
+            
             // throw new Error('An unexpected error occurred.');
         }
     }

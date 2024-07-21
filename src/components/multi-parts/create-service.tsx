@@ -2,8 +2,11 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { Field, Form, ErrorMessage, Formik } from "formik";
 import * as yup from 'yup';
+import { useNavigate } from "react-router-dom";
 
 export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) => {
+    const navigate = useNavigate();
+
     const handleSubmit = (val: any) => {
         handleStepDataSubmit(val)
     }
@@ -23,14 +26,19 @@ export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) =>
         >
             {
                 ({ handleSubmit, values }) => (
-                    <Form onSubmit={handleSubmit} className="gap-0">
+                    <Form onSubmit={handleSubmit} className="gap-0 slide-form">
                         {
                             <>
-                                {/* <p
-                                    className="fw-bold"
-                                    role="button"
-                                    onClick={() => { handleResetData }}
-                                >Back</p> */}
+                                 <p
+                                            className="fw-bold d-flex gap-2"
+                                            role="button"
+                                            onClick={() => 
+                                            navigate(-1)
+                                            }
+                                        >
+                                            <i className="bi bi-arrow-left"></i>
+                                            Back
+                                        </p>
                                 <h5 className="fw-bold">
                                     Create a new service
                                 </h5>
@@ -138,7 +146,7 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
         >
             {
                 ({ handleSubmit, values }) => (
-                    <Form onSubmit={handleSubmit} className="gap-0">
+                    <Form onSubmit={handleSubmit} className="gap-0 slide-form">
                         {
                             <>
                                 {/* <p
@@ -146,10 +154,19 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
                                     role="button"
                                     onClick={() => { handleResetData }}
                                 >Back</p> */}
-                                <h5 onClick={handlePrev} className="fw-bold d-flex gap-2">
+                                {/* <h5 onClick={handlePrev} className="fw-bold d-flex gap-2">
                                 <i className="bi bi-arrow-left"></i>
                                     Prev
-                                </h5>
+                                </h5> */}
+
+                                <p
+                                            className="fw-bold d-flex gap-2"
+                                            role="button"
+                                            onClick={handlePrev}
+                                        >
+                                            <i className="bi bi-arrow-left"></i>
+                                            Prev
+                                        </p>
 
                                 <label className="mt-3 fw-bold" htmlFor="userEmail">
                                     How much will you charge?
@@ -218,7 +235,7 @@ export const ServiceStepThree: React.FC<any> = ({ handleStepDataSubmite, data, h
         >
             {
                 ({ handleSubmit, values }) => (
-                    <Form onSubmit={handleSubmit} className="gap-0">
+                    <Form onSubmit={handleSubmit} className="gap-0 slide-form">
                         {
                             <>
                                 <p

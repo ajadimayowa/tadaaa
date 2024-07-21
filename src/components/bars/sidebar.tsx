@@ -2,7 +2,7 @@ import React from "react";
 import style from './sidebar.module.css';
 import { Button } from "react-bootstrap";
 
-const SideBarUnAuth: React.FC<any> = ({ onSideBar, toggleSideBar, onSignIn }) => {
+const SideBarUnAuth: React.FC<any> = ({ onSideBar, toggleSideBar, onLogin }) => {
 
     const links = [
         { title: 'Go-pro', path: '' },
@@ -23,7 +23,7 @@ const SideBarUnAuth: React.FC<any> = ({ onSideBar, toggleSideBar, onSignIn }) =>
 
                 }
                 
-                <Button onClick={() => onSignIn()} className="fw-medium text-light bg-secondary" style={{ maxWidth: '8em', minWidth: '8em' }}>Sign up</Button>
+                <Button onClick={() => onLogin()} className="fw-medium text-light bg-secondary" style={{ maxWidth: '8em', minWidth: '8em' }}>Login</Button>
             </ul>
 
 

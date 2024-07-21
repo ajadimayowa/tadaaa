@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import style from './topbar.module.css';
 import logo from '../../assets/svgs/logo-wok9ja.svg'
 
-const TopBarUnAuth: React.FC<any> = ({ buttonClicked, togSide, signUpClicked }) => {
+const TopBarUnAuth: React.FC<any> = ({ loginClicked, togSide, signUpClicked }) => {
     // const navigate = useNavigate();
 
     const links = [
@@ -23,10 +23,10 @@ const TopBarUnAuth: React.FC<any> = ({ buttonClicked, togSide, signUpClicked }) 
                         ))
                         
                     }
-                    <li onClick={signUpClicked} className="list-group-item fw-medium" role="button">Sign up</li>
+                    <li onClick={loginClicked} className="list-group-item fw-medium" role="button">Login</li>
                 </ul>
                 <div className="d-flex gap-3 align-items-center">
-                <Button className=" bg-secondary px-3 fw-bold text-light" onClick={buttonClicked}>Login</Button>
+                <Button className=" bg-secondary px-3 fw-bold text-light" onClick={signUpClicked}>Sign up</Button>
                 <i className="bi bi-globe " role="button"></i>
                 </div>
                 

@@ -7,7 +7,7 @@ import './index.css'
 import SideBarUnAuth from "../components/bars/sidebar";
 import LoginModal from "../components/modals/loginmodal";
 import { useNavigate } from "react-router-dom";
-const HomePage = () => {
+const ExplorePage = () => {
     const navigate = useNavigate()
     const token: string = localStorage.getItem('userToken') || ''
     const [regModal, setRegModal] = useState(false);
@@ -15,7 +15,7 @@ const HomePage = () => {
     const [onSideNav, setOnSideNav] = useState(false);
     const [currentService, setCurrentService] = useState(0);
     const currentServicePopular = 0;
-const [transit,setTransit] = useState(false);
+
     const LoadingPage = () => {
 
         useEffect(() => {
@@ -115,7 +115,6 @@ const [transit,setTransit] = useState(false);
     ]
 
     const handleNextService = (currentServ: number) => {
-        setTransit(!transit)
         if (currentServ == services.length - 1) {
             setCurrentService(0)
         } else {
@@ -140,9 +139,9 @@ const [transit,setTransit] = useState(false);
             {
                 token ? <LoadingPage /> :
                     <>
-                        <SideBarUnAuth onLogin={() => { setLoginModal(true); setOnSideNav(!onSideNav) }} toggleSideBar={() => setOnSideNav(!onSideNav)} onSideBar={onSideNav} />
+                        <SideBarUnAuth onSignIn={() => { setRegModal(true); setOnSideNav(!onSideNav) }} toggleSideBar={() => setOnSideNav(!onSideNav)} onSideBar={onSideNav} />
                         <TopBarUnAuth
-                            loginClicked={() => setLoginModal(true)}
+                            buttonClicked={() => setLoginModal(true)}
                             signUpClicked={() => setRegModal(true)}
                             togSide={() => setOnSideNav(!onSideNav)} />
                         <div className="w-100 section-one bg-primary text-light px-4">
@@ -179,19 +178,19 @@ const [transit,setTransit] = useState(false);
 
                         </div>
 
-                        <div className="w-100 available-services mt-3 section-two">
+                        <div className="w-100 mt-3 section-two">
 
                             <h3 className="text-center">Available Services</h3>
-                            <div className="w-100 d-flex px-2 justify-content-center align-items-center mt-4">
+                            <div className="w-100 d-flex gap-2 px-2 justify-content-center align-items-center mt-4">
                                 <i className="bi bi-chevron-left" role="button" onClick={() => handlePrevService(currentService)}></i>
-                                <div className="d-flex px-0 gap-2  justify-content-center align-items-center service-holder"
+                                <div className="d-flex gap-3  justify-content-center align-items-center"
                                     style={{ flexWrap: 'wrap', transition: 'all 1s ease-in' }}>
                                     {
                                         services[currentService].gigs.map((serv: any, index: number) => (
-                                            <div key={index} className={`d-flex flex-column card-holder gap-2 align-items-center ${ transit && 'slide-form'}`}
+                                            <div key={index} className="d-flex flex-column align-items-center gap-2"
                                                 style={{ maxWidth: '7em', maxHeight: '10em', }}>
-                                                <Card className="shadow-lg border-0 card"
-                                                    style={{ minWidth: '6em', minHeight: '6em' }}>
+                                                <Card className="shadow-lg border-0"
+                                                    style={{ minWidth: '7em', minHeight: '7em' }}>
                                                     <Card.Body className="d-flex flex-column align-items-center justify-content-center">
                                                         <i className={` ${serv.icon}`} style={{ fontSize: '2em' }}></i>
                                                     </Card.Body>
@@ -216,7 +215,7 @@ const [transit,setTransit] = useState(false);
                             <h3 className="text-center">Most Wanted Services</h3>
                             <div className="w-100 d-flex gap-2 px-2 justify-content-center align-items-center mt-4">
                                 {/* <i className="bi bi-chevron-left" role="button" onClick={() => handlePrevServicePop(currentServicePopular)}></i> */}
-                                <div className="d-flex gap-3 w-100  align-items-center slide-form"
+                                <div className="d-flex gap-3 w-100  align-items-center"
                                     id="services"
                                     style={{ transition: 'all 1s ease-in', overflowX: 'scroll', maxWidth: '100%' }}>
                                     {
@@ -299,4 +298,4 @@ const [transit,setTransit] = useState(false);
         </div>
     )
 }
-export default HomePage;
+export default ExplorePage;

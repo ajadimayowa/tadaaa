@@ -4,6 +4,12 @@ $secondary: #50E3C2;
 $light: #ffffff;
 $grey: #e5dfdf;
 
+@keyframes moveDiv {
+  0% { right: -5%; }
+  // 50% { right: 200px; }
+  100% { right: 0%; }
+}
+
 .body {
   overflow: hidden;
 }
@@ -19,7 +25,21 @@ $grey: #e5dfdf;
     box-shadow: 0 0 0 0.2rem #4a91e269; /* Primary color shadow */
   }
 
+.slide-form {
+  position: relative;
+  animation: moveDiv 0.5s;
+}
+
   @media (max-width: 576px) {
+    .slide-form {
+      position: relative;
+      animation: moveDiv 0.5s;
+    }
+
+    .slide-form .card {
+      // position: relative;
+      animation: moveDiv 0.5s;
+    }
     .niramit-regular {
       font-family: "Niramit", sans-serif;
       font-weight: 400;
@@ -66,6 +86,38 @@ $grey: #e5dfdf;
     .card {
       width: 50px;
     }
+}
+
+// .available-services {
+//   background-color: rgb(221, 0, 37)
+// }
+
+
+.available-services .service-holder {
+  min-width: 90%;
+  justify-content: space-evenly;
+  // background-color: rgb(248, 65, 96)
+}
+
+.available-services .service-holder  {
+  min-width: 90%;
+  justify-content: space-evenly;
+  // background-color: rgb(248, 65, 96)
+}
+
+.available-services .service-holder  .card-holder{
+  min-width: 15%;
+  justify-content: space-evenly;
+  // background-color: rgb(65, 248, 108)
+}
+
+@media (max-width: 576px) {
+
+// .available-services {
+//   // background-color: pink
+// }
+
+
 }
 
 @import 'bootstrap/scss/bootstrap';

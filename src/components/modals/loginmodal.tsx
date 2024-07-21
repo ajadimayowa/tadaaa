@@ -38,9 +38,7 @@ const LoginModal: React.FC<any> = ({ on, off }) => {
         setLoading(true);
         try {
             const res = await loginUser(userCred);
-            // console.log(res);
-
-            if (res.data) {
+            if (res.success) {
                 let loggedInUser = JSON.stringify(res.data.payload)
                 localStorage.setItem('loggedInUser', loggedInUser)
                 localStorage.setItem('userToken', res.data.userToken)
@@ -49,16 +47,12 @@ const LoginModal: React.FC<any> = ({ on, off }) => {
                 toast.success('Login successful');
                 setLoading(false);
             }
-            else if(res.status == 400){
-                setLoading(false);
-                toast.error('Invalid Credential!')
-            }
              else {
                 setLoading(false);
-                toast.error('Network error,try again')
+                toast.error('Invalid credentials!')
             }
         } catch (error: any) {
-            // toast.error('Invalid Credential!')
+            toast.error('Network error!')
             setLoading(false);
             console.error('Operation failed:', error);
         }
@@ -84,7 +78,7 @@ const LoginModal: React.FC<any> = ({ on, off }) => {
                             className={`p-4 m-0 ${style.right}`}
                         >
 
-                            <div className="d-flex flex-column gap-5 justify-content-between">
+                            <div className="d-flex w-100 flex-column gap-5 justify-content-between">
                                 <Formik
                                     initialValues={userData}
                                     validationSchema={stepOneValSchema}
@@ -92,7 +86,7 @@ const LoginModal: React.FC<any> = ({ on, off }) => {
                                 >
                                     {
                                         ({ handleSubmit }) => (
-                                            <Form onSubmit={handleSubmit} className="gap-0">
+                                            <Form onSubmit={handleSubmit} className="gap-0 slide-form">
                                                 {
                                                     <>
                                                         <p
@@ -172,9 +166,9 @@ const LoginModal: React.FC<any> = ({ on, off }) => {
                                     }
                                 </Formik>
 
-                                <p>
-                                    By joining, you agree to Our Terms of Service and to occasionally receive emails from us.
-                                    Please read our Privacy Policy to learn how we use your personal data.
+                                <p className="text-center">
+                                    We need funding. <br/>
+                                   Kindly Click <a href="https://wa.me/2348166064166" target="_blank">here</a> to support us.
                                 </p>
                             </div>
 

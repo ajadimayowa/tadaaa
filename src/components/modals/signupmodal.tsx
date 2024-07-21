@@ -95,9 +95,12 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
                 >
                     {
                         ({ values, handleSubmit }) => (
-                            <Form onSubmit={handleSubmit} className="gap-0">
+                            <Form onSubmit={handleSubmit} className="gap-0 slide-form">
                                 {
                                     <>
+
+
+
                                         <p
                                             className="fw-bold"
                                             role="button"
@@ -109,7 +112,12 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
                                                     userName: '',
                                                 })
                                             }}
-                                        >Back</p>
+                                        >
+                                            <i className="bi bi-arrow-left"></i>
+                                            Back
+                                        </p>
+
+
                                         <h5 className="fw-bold">
                                             Continue with your email
                                         </h5>
@@ -205,7 +213,7 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
                 >
                     {
                         ({ handleSubmit, values }) => (
-                            <Form onSubmit={handleSubmit} className="">
+                            <Form onSubmit={handleSubmit} className="slide-form">
                                 {
                                     <>
                                         <p className="fw-bold" role="button" onClick={() => prev(values)}>Back</p>
