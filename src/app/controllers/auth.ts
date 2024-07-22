@@ -1,5 +1,5 @@
 import axios from "axios";
-import { api } from "./api";
+import  api  from "./api";
 
 interface Resource {
     email: string,
@@ -33,7 +33,7 @@ export const loginUser = async (resourceData: Resource): Promise<Resource> => {
         } else {
             console.error('Non-Axios error:', error);
             console.log('error here :', error.response)
-            return error.response
+            return error.response.data
             
             // throw new Error('An unexpected error occurred.');
         }

@@ -1,27 +1,32 @@
-import axios from "axios";
+import axios from 'axios';
 
 let baseURL = import.meta.env.VITE_API_BASEURL
-let enviroment = import.meta.env
 let dev = import.meta.env.DEV
-let prod = import.meta.env.PROD
 
-if(dev){
+
+
+// const checkAndSetBaseUrl = (): string => {
+
+//     if (dev) {
+//         baseURL = import.meta.env.VITE_API_BASEURL_LOCAL
+//         return baseURL
+//     } else return baseURL
+// }
+
+if (dev) {
     baseURL = import.meta.env.VITE_API_BASEURL_LOCAL
 }
 
-export const api = axios.create({
-    baseURL: baseURL,
-    timeout: 1000,
+// console.log({ currentDev: dev })
+// console.log({ currentEnv: baseURL })
+
+const api = axios.create({
+    baseURL: baseURL, // replace with your API base URL
+    timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
     },
 });
-
-export const checkEnv = ()=>{
-    console.log({runing :baseURL})
-    console.log({using:enviroment})
-    console.log({dev:dev,prod:prod})
-}
 
 let token: string | null = null;
 
@@ -38,3 +43,5 @@ api.interceptors.request.use(
 export const setToken = (newToken: string) => {
     token = newToken;
 };
+
+export default api;

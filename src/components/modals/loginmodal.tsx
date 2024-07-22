@@ -52,6 +52,7 @@ const LoginModal: React.FC<any> = ({ on, off }) => {
                 toast.error('Invalid credentials!')
             }
         } catch (error: any) {
+            console.log({serverError:error})
             toast.error('Network error!')
             setLoading(false);
             console.error('Operation failed:', error);
