@@ -19,7 +19,7 @@ const [transit,setTransit] = useState(false);
     const LoadingPage = () => {
 
         useEffect(() => {
-            token && navigate('/app', { replace: true, preventScrollReset: true })
+            token && navigate('/dashboard', { replace: true, preventScrollReset: true })
         }, [token])
 
         return (
@@ -292,7 +292,7 @@ const [transit,setTransit] = useState(false);
                             <p>(+234)8166064166</p>
                         </div>
 
-                        <SignupModal on={regModal} off={() => setRegModal(false)} />
+                        <SignupModal on={regModal} off={() => setRegModal(false)} onLogin={() => setLoginModal(true)} />
                         <LoginModal on={loginModal} off={() => setLoginModal(false)} />
                     </>
             }

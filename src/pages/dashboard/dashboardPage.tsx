@@ -1,11 +1,20 @@
 
+// import { useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+// import { getUserGigs } from "../../app/controllers/user";
 
 const DashboardPage = () => {
     const navigate = useNavigate();
     const user = localStorage.getItem('loggedInUser') || ''
-    const username = JSON.parse(user).userName
+    const userId = JSON.parse(user).userId;
+    // const [userInfo,setUserInfo] = useState();
+
+    // let payload = {url:, body:{}}
+    // const handleGetUserInfo = async ()=>{
+    //     const res = await getUserGigs(payload)
+
+    // }
 
     // const [addTask, setAddTask] = useState(false)
     const currentServicePopular = 0;
@@ -59,7 +68,7 @@ const DashboardPage = () => {
                             </div>
 
                             <p className="px-3">
-                                Create a list of services you can render.
+                                Do you have a skill? Join the sellers.
                             </p>
 
                         </div>
@@ -69,11 +78,19 @@ const DashboardPage = () => {
             </div>
 
             <div className="w-100 text-center mt-3" >
+                <p>You must complete KYC to become a seller.</p>
+                <div className="m-2">
                 <Button
-                    onClick={() => navigate(`create-service/${username}`)}
-                    className="text-primary bg-light shadow-lg"
-                    style={{ fontSize: '2em', height: '2em', width: '2em', borderRadius: '2em' }}>+</Button>
-                <p className="mt-2 fw-bold">Add New</p>
+                    onClick={() => navigate(`complete-kyc/${userId}`)}
+                    variant="outline"
+                    className="text-danger border border-danger py-2 shadow-lg"
+                    >Complete KYC</Button>
+                </div>
+                
+                <Button
+                    onClick={() => navigate(`create-service/${userId}`)}
+                    className="text-light py-2 shadow-lg"
+                    >Become a seller</Button>
             </div>
 
             {/* <div className="w-100 text-center mt-3" >

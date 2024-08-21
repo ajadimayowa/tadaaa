@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import { Field, Form, ErrorMessage, Formik } from "formik";
 import * as yup from 'yup';
 import { useNavigate } from "react-router-dom";
 
-export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) => {
+export const KycStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) => {
    
     const navigate = useNavigate();
+    const [fileName, setFileName] = useState('');
+    // const [fileUrl, setFileUrl] = useState('');
+
+    const handleFileChange = (event: any, setFieldValue: any) => {
+        console.log(event)
+        const file = event.currentTarget.files[0];
+
+        if (file) {
+            // let path = URL.createObjectURL(file)
+            setFileName(file.name);
+            // setFileUrl(path);
+            setFieldValue('idDoc', file);
+        }
+    };
 
     const handleSubmit = (val: any) => {
         
@@ -14,9 +28,11 @@ export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) =>
     }
 
     const valSchema = yup.object({
-        title: yup.string().min(3).required().label('Title'),
-        description : yup.string().min(10).required('Give a brief description').label('Description'),
-        category : yup.string().min(10).required('Select a category').label('Category'),
+        idType : yup.string().required('Select an ID Type').label('ID Type'),
+        idNumber: yup.string().min(3).required('Cannot be empty').label('ID Number'),
+        // idDoc: yup.string().min(3).required('Upload a Doc').label('ID Doc'),
+        // description : yup.string().min(10).required('Give a brief description').label('Description'),
+        
     })
 
 
@@ -27,7 +43,7 @@ export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) =>
         validationSchema={valSchema}
         >
             {
-                ({ handleSubmit, values }) => (
+                ({ handleSubmit, values,setFieldValue }) => (
                     <Form onSubmit={handleSubmit} className="gap-0 slide-form">
                         {
                             <>
@@ -42,67 +58,65 @@ export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) =>
                                             Back
                                         </p>
                                 <h5 className="fw-bold">
-                                    Create a new Gig
+                                    Complete your KYC
                                 </h5>
-
-                                <label className="mt-3 fw-bold" htmlFor="userEmail">
-                                    Title
-                                </label>
-                                <p>Give your gig a befiting title. i.e I will do graphics design.</p>
-                                <div>
-                                    <Field
-                                        value={values.title}
-                                        className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
-                                        id='title' name='title' />
-                                    <ErrorMessage
-                                        name="title"
-                                        component="div"
-                                        className="text-danger fw-medium" />
-                                </div>
-
-                                <label className="mt-3 fw-bold" htmlFor="userEmail">
-                                    Description
-                                </label>
-                                <p>Briefly description of your gig. max 100 words.</p>
-                                <div>
-                                    <Field
-                                        value={values.description}
-                                        as="textarea"
-                                        className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
-                                        id='description' name='description' />
-                                    <ErrorMessage
-                                        name="description"
-                                        component="div"
-                                        className="text-danger fw-medium" />
-                                </div>
-
-
+                                <p>Step 1 of 2</p>
 
                                 <label className="d-flex justify-content-between mt-3 w-100 fw-bold" htmlFor="password">
-                                    Category
+                                   Select ID Type
                                 </label>
                                 <div className="mt-1">
 
                                     <Field
                                         as="select"
                                         className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
-                                        id='category' name='category'>
+                                        id='idType' name='idType'>
                                         <option value={''}>Select</option>
-                                        <option value={'Fashion & Tailoring'}>Fashion & Tailoring</option>
-                                        <option value={'Resumee & Article Writting'}>Resumee & Article Writting</option>
-                                        <option value={'Programing & Tech'}>Programing & Tech</option>
-                                        <option value={'Delivery Business'}>Delivery Business</option>
-                                        <option value={'Virtual Assistant'}>Virtual Assistant</option>
-                                        <option value={'Presentation Design'}>Presentation Design</option>
-                                        <option value={'Skit & Marketing Content'}>Skit & Marketing Content</option>
-                                        <option value={'Other Services'}>Other Services</option>
+                                        <option value={'nin'}>NIN</option>
+                                        <option value={'votersCard'}>Voters card</option>
+                                        <option value={'passport'}>Passport</option>
+                                        
                                     </Field>
 
                                     <ErrorMessage
-                                        name="category"
+                                        name="idType"
                                         component="div"
                                         className="text-danger fw-medium" />
                                 </div>
+
+                                <label className="mt-3 fw-bold" htmlFor="userEmail">
+                                    ID Number
+                                </label>
+                                <p>Type in selected ID type number</p>
+                                <div>
+                                    <Field
+                                        value={values.title}
+                                        className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
+                                        id='idNumber' name='idNumber' />
+                                    <ErrorMessage
+                                        name="idNumber"
+                                        component="div"
+                                        className="text-danger fw-medium" />
+                                </div>
+
+                                <label className="mt-3 fw-bold" htmlFor="userEmail">
+                                    Upload ID Document(optional)
+                                </label>
+                                <p>Should be a jpg,jpeg or png.</p>
+                                 <div>
+                                   <div className="d-flex align-items-center gap-2">
+                                        <label htmlFor="idDoc" className="p-3 rounded bg-light border border-primary w-25 text-center text-primary fs-1">+</label>
+                                        <p>{fileName}</p>
+                                        </div>
+                                        <input 
+                                        onChange={(event) => handleFileChange(event, setFieldValue)}
+                                        type="file" name="idDoc" id="idDoc" style={{display:"none"}}/>
+                                    <ErrorMessage
+                                        name="docUpload"
+                                        component="div"
+                                        className="text-danger fw-medium" />
+                                </div>
+
 
                                 <div className="mt-3 w-100 text-center">
                                     <Button
@@ -122,7 +136,9 @@ export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) =>
 
 }
 
-export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, finalPage, gotoPrev, loading }) => {
+export const KycStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, finalPage, gotoPrev, loading }) => {
+    const [fileName, setFileName] = useState('');
+    // const [fileUrl, setFileUrl] = useState('');
    
     const handleSubmit = (val: any) => {
       
@@ -132,12 +148,27 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
     const handlePrev = (val: any) => {
         gotoPrev(val)
     }
+    const handleFileChange = (event: any, setFieldValue: any) => {
+        console.log(event)
+        const file = event.currentTarget.files[0];
 
+        if (file) {
+            // let path = URL.createObjectURL(file)
+            setFileName(file.name);
+            // setFileUrl(path);
+            setFieldValue('profilePic', file);
+        }
+    };
 
 
     const valSchema = yup.object({
-        proposedPay: yup.number().min(1000, 'Cannot be less than N1000').required('Tell us your price').label('Your price'),
-        actualCost: yup.number().min(1000, 'Cannot be less than N1000').required('A rough estimation is fine').label('Market price'),
+        primaryAddress: yup.string().min(10, 'Cannot be less than 10').required('Cannot be empty').label('Primary Address'),
+        secondaryAddress: yup.string().min(10, 'Cannot be less than 10').required('Cannot be empty').label('Secondary Address'),
+        profilePic: yup.mixed()
+            .required('A file is required')
+            .test('fileType', 'Only Jpegs and  files are accepted', (value: any) => {
+                return value ;
+            }),
     })
 
 
@@ -148,7 +179,7 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
         validationSchema={valSchema}
         >
             {
-                ({ handleSubmit, values }) => (
+                ({ handleSubmit, values,setFieldValue }) => (
                     <Form onSubmit={handleSubmit} className="gap-0 slide-form">
                         {
                             <>
@@ -157,12 +188,9 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
                                     role="button"
                                     onClick={() => { handleResetData }}
                                 >Back</p> */}
-                                {/* <h5 onClick={handlePrev} className="fw-bold d-flex gap-2">
-                                <i className="bi bi-arrow-left"></i>
-                                    Prev
-                                </h5> */}
-
-                                <p
+                                <div className="d-flex w-100 justify-content-between">
+                                    <div>
+                                    <p
                                             className="fw-bold d-flex gap-2"
                                             role="button"
                                             onClick={handlePrev}
@@ -170,42 +198,70 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
                                             <i className="bi bi-arrow-left"></i>
                                             Prev
                                         </p>
+                                    </div>
+                                    <div>
+                                        <>
+                                        <h5 className="fw-bold">
+                                    Complete your KYC
+                                </h5>
+                                <p>Step 2 of 2</p>
+                                        </>
+                                    </div>
+                                </div>
+                                
 
                                 <label className="mt-3 fw-bold" htmlFor="userEmail">
-                                    How much will you charge?
+                                    Upload Profile Pic.
                                 </label>
+                                <p>Should be a jpg,jpeg or png.</p>
                                 <div>
-                                    <Field
-                                    value={values.proposedPay}
-                                        placeholder="(N)"
-                                        type='number'
-                                        className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
-                                        id='proposedPay' name='proposedPay' />
+                                   <div className="d-flex align-items-center gap-2">
+                                        <label htmlFor="profilePic" className="p-3 rounded bg-light border border-priamry w-25 text-center text-primary fs-1">+</label>
+                                        <p>{fileName}</p>
+                                        </div>
+                                        <input 
+                                        onChange={(event) => handleFileChange(event, setFieldValue)}
+                                        type="file" name="profilePic" id="profilePic" style={{display:"none"}}/>
                                     <ErrorMessage
-                                        name="proposedPay"
+                                        name="profilePic"
                                         component="div"
                                         className="text-danger fw-medium" />
                                 </div>
 
-                                <label className="d-flex justify-content-between mt-3 w-100 fw-bold" htmlFor="password">
-                                    How much is the market price?
-
+                                <label className="mt-3 fw-bold" htmlFor="userEmail">
+                                    Primary Address
                                 </label>
-                                <div className="mt-1">
-
-                                    <Field
-                                        placeholder="(N)"
-                                        value={values.actualCost}
-                                        type='number'
+                                <p>Kindly tell us your primary address i.e Office address</p>
+                                <div>
+                                 <Field
+                                        value={values.description}
+                                        as="textarea"
                                         className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
-                                        id='actualCost' name='actualCost' />
-
+                                        id='primaryAddress' name='primaryAddress' />
+                                        
                                     <ErrorMessage
-                                        name="actualCost"
+                                        name="primaryAddress"
                                         component="div"
                                         className="text-danger fw-medium" />
                                 </div>
-                                <p className="w-75 mt-5">
+
+                                <label className="mt-3 fw-bold" htmlFor="userEmail">
+                                    Secondary Address
+                                </label>
+                                <p>Kindly tell us your seconday address i.e address for pickups</p>
+                                <div>
+                                 <Field
+                                        value={values.description}
+                                        as="textarea"
+                                        className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
+                                        id='secondaryAddress' name='secondaryAddress' />
+                                        
+                                    <ErrorMessage
+                                        name="secondaryAddress"
+                                        component="div"
+                                        className="text-danger fw-medium" />
+                                </div>
+                                <p className="w-75 mt-2">
                                     As soon as this service is submitted, we will verify it and then connect you to people who need your services
                                 </p>
 
@@ -228,7 +284,7 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
 
 }
 
-export const ServiceStepThree: React.FC<any> = ({ handleStepDataSubmite, data, handleResetData }) => {
+export const KycStepThree: React.FC<any> = ({ handleStepDataSubmite, data, handleResetData }) => {
     // const [secure, setSecure] = useState(false);
 
 
@@ -286,4 +342,4 @@ export const ServiceStepThree: React.FC<any> = ({ handleStepDataSubmite, data, h
 
 }
 
-export default { ServiceStepOne, ServiceStepTwo, ServiceStepThree }
+export default { KycStepOne, KycStepTwo, KycStepThree }

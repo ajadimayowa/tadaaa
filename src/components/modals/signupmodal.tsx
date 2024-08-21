@@ -4,15 +4,16 @@ import { Button, Modal, Spinner } from "react-bootstrap";
 import style from '../modals/signupmodal.module.css'
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from 'yup';
-import { createUser } from "../../app/controllers/auth";
-import { useNavigate } from "react-router-dom";
+import { createUser,verifyUser } from "../../app/controllers/auth";
 import { toast } from "react-toastify";
 
 
 
-const SignupModal: React.FC<any> = ({ on, off }) => {
-    const navigate = useNavigate()
+const SignupModal: React.FC<any> = ({ on, off, onLogin }) => {
+ 
     const [loading, setLoading] = useState(false);
+    const [verify, setVerify] = useState(false);
+    const [userEmail,setUserEmail]= useState('');
 
 
 
@@ -21,6 +22,7 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
         fullName: '',
         email: '',
         password: '',
+        phoneNumber: '',
         userName: ''
     });
 
@@ -37,23 +39,40 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
     })
 
     const stepTwoValSchema = yup.object({
-        userName: yup.string().min(3).required('Username is required').label('Username')
+        userName: yup.string().min(3).required('Username is required').label('Username'),
+        phoneNumber: yup.string().length(10).required().label('Phone Number'),
     })
+
+    
+        const stepOtpValSchema = yup.object({
+            otp: yup.number()
+                .typeError('OTP must be a number')
+                .test(
+                    'len',
+                    'OTP must be exactly 6 digits',
+                    (val:any) => val && val.toString().length === 6
+                )
+                .required('OTP is required'),
+        });
+        
+
 
     const [currentStep, setCurrentStep] = useState(0);
 
     const handleCreateUser = async (userCred: any) => {
         try {
             const res = await createUser(userCred);
-            console.log(res);
+            // console.log(res);
             if (res.success) {
                 setLoading(false);
-                toast.success('User created! check your mail')
-                navigate('/');
-                off();
+                toast.success('User created! OTP code sent to your mail')
+                setVerify(true)
             } else if (res.status == 409) {
                 toast.error('User exist!')
                 setLoading(false);
+            } else {
+                toast.error('Error creating user!');
+                setLoading(false)
             }
         } catch (error: any) {
             setLoading(false);
@@ -64,9 +83,11 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
 
     const handleNextStep = (newData: any, final: boolean) => {
         if (final) {
-            setLoading(true)
+
+            setLoading(true);
+            setUserEmail(newData.email);
             handleCreateUser(newData)
-            console.log({ sending: newData })
+            // console.log({ sending: newData })
             setUserData(prevData => ({ ...prevData, ...newData }));
         } else {
             setUserData(prevData => ({ ...prevData, ...newData }));
@@ -105,10 +126,12 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
                                             className="fw-bold"
                                             role="button"
                                             onClick={() => {
-                                                offModal(); setUserData({
+                                                offModal();
+                                                 setUserData({
                                                     fullName: '',
                                                     email: '',
                                                     password: '',
+                                                    phoneNumber: '',
                                                     userName: '',
                                                 })
                                             }}
@@ -240,6 +263,108 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
                                                 component="div"
                                                 className="text-danger fw-medium" />
                                         </div>
+
+                                        <label className="mt-3 fw-bold" htmlFor="phoneNumber">
+                                            Phone Number
+                                        </label>
+                                        <div>
+                                            <Field
+                                                value={values.phoneNumber}
+                                                placeholder='E.g: 08166064166'
+                                                type='number'
+                                                name='phoneNumber'
+                                                id='phoneNumber'
+                                                className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
+                                            />
+
+                                            <ErrorMessage
+                                                name='phoneNumber'
+                                                component="div"
+                                                className="text-danger fw-medium" />
+                                        </div>
+                                        {/* <Form.Label className="mt-4" htmlFor="email">
+                                        Username
+                                    </Form.Label>
+                                    <Form.Control className="rounded rounded-1 py-2" id="email" /> */}
+
+                                        <div className="mt-3 w-100 text-center">
+                                            <Button
+                                                disabled={loading}
+                                                type="submit"
+                                                className="outline-0 w-100 border border-0  bg-dark text-light"
+                                            >{
+                                                    loading ? <Spinner size="sm" /> : 'Submit'
+                                                }</Button>
+                                        </div>
+                                    </>
+                                }
+                            </Form>
+                        )
+                    }
+                </Formik>
+            </div>
+        )
+    }
+
+   
+    const StepOtp: React.FC<any> = ({offModal}) => {
+        const handleVerify = async (body:any)=>{
+            setLoading(true)
+            // console.log(body);
+            let payload = {url:'verify-otp',body:{email:userEmail,otpCode:+body.otp}}
+            const res = await verifyUser(payload)
+            // console.log({verifying:res})
+            if(res.success){
+                toast.success('Account verified! You can login now.');
+                setLoading(false)
+                off()
+                onLogin()
+            } else {
+                toast.error(res.message)
+                setLoading(false)
+            }
+                }
+        return (
+            <div className="d-flex flex-column gap-5 justify-content-between">
+
+
+                <Formik
+                    initialValues={{ otp: null }}
+                    validationSchema={stepOtpValSchema}
+                    onSubmit={handleVerify}
+                >
+                    {
+                        ({ handleSubmit, values }) => (
+                            <Form onSubmit={handleSubmit} className="slide-form">
+                                {
+                                    <>
+                                        <p className="fw-bold" role="button" onClick={() => {offModal(); onLogin()}}>Back</p>
+                                        <h5 className="fw-bold">
+                                            Verify your OTP
+                                        </h5>
+                                        <p>
+                                            Enter the otp sent to your email.
+                                        </p>
+                                        <label className="mt-3 fw-bold" htmlFor="otp">
+                                            Enter OTP
+                                        </label>
+                                        <div className="d-flex flex-column gap-2">
+                                           
+                                                    <>
+                                                    <Field
+                                               value={values.otp}
+                                                type='number'
+                                                name="otp"
+                                                id="otp"
+                                                className="rounded text-center rounded-1 p-2 outline form-control-outline border border-1 border-grey"
+                                            />
+
+                                            <ErrorMessage
+                                                name="otp"
+                                                component="div"
+                                                className="text-danger fw-medium" />
+                                                    </>
+                                        </div>
                                         {/* <Form.Label className="mt-4" htmlFor="email">
                                         Username
                                     </Form.Label>
@@ -295,8 +420,9 @@ const SignupModal: React.FC<any> = ({ on, off }) => {
                             className={`p-4 m-0 ${style.right}`}
                         >
 
-                            {
-                                steps[currentStep]
+                            {verify ? <StepOtp /> :
+                                steps[currentStep] 
+                                
                             }
 
                         </div>

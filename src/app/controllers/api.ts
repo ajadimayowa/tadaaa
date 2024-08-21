@@ -4,15 +4,6 @@ let baseURL = import.meta.env.VITE_API_BASEURL
 let dev = import.meta.env.DEV
 
 
-
-// const checkAndSetBaseUrl = (): string => {
-
-//     if (dev) {
-//         baseURL = import.meta.env.VITE_API_BASEURL_LOCAL
-//         return baseURL
-//     } else return baseURL
-// }
-
 if (dev) {
     baseURL = import.meta.env.VITE_API_BASEURL_LOCAL
 }
@@ -22,7 +13,7 @@ if (dev) {
 
 const api = axios.create({
     baseURL: baseURL, // replace with your API base URL
-    timeout: 10000,
+    timeout: 5000,
     headers: {
         'Content-Type': 'application/json',
     },
