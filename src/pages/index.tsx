@@ -7,15 +7,25 @@ import './index.css'
 import SideBarUnAuth from "../components/bars/sidebar";
 import LoginModal from "../components/modals/loginmodal";
 import { useNavigate } from "react-router-dom";
+import { getServices } from "../app/routes/service";
+import { IService } from "../interfaces/service";
+import { toast } from "react-toastify";
+import playstore from '../assets/pngs/playstore.png';
+import appstore from '../assets/pngs/appstore.png';
+
 const HomePage = () => {
     const navigate = useNavigate()
     const token: string = localStorage.getItem('userToken') || ''
     const [regModal, setRegModal] = useState(false);
     const [loginModal, setLoginModal] = useState(false);
     const [onSideNav, setOnSideNav] = useState(false);
-    const [currentService, setCurrentService] = useState(0);
+    const [services, setServices] = useState<IService[]>([]);
+    const [currentServicesPage,setCurrentServicesPage] = useState(1);
+    const [allServicePageNumber,setAllServicePageNumber] = useState(1);
+    const [refData, setRefData] = useState(false);
     const currentServicePopular = 0;
-const [transit,setTransit] = useState(false);
+    const [transit, setTransit] = useState(false);
+
     const LoadingPage = () => {
 
         useEffect(() => {
@@ -27,48 +37,21 @@ const [transit,setTransit] = useState(false);
         )
     }
 
+   const handleGetServices = async ()=>{
+    const res= await getServices(6,currentServicesPage)
+    console.log(res)
+    if(res.success){
+        setServices(res.data?.services);
+        setAllServicePageNumber(res.data.totalPages);
+    } else {
+        toast.error(res.error)
+    }
+   }
 
-    const services = [
-        {
-            category: 'all-service',
-            gigs: [
-                { title: 'Fashion & Tailoring', icon: 'bi bi-scissors', serviceId: '1' },
-                { title: 'Software Development', icon: 'bi bi-pc-display-horizontal', serviceId: '2' },
-                { title: 'Marketing Skits', icon: 'bi bi-camera-reels', serviceId: '3' },
+   useEffect(()=>{
+    handleGetServices()
+   },[refData])
 
-                { title: 'Media Services & Jinggles', icon: 'bi bi-camera-reels', serviceId: '10' },
-                { title: 'Consultation Services', icon: 'bi bi-pc-display-horizontal', serviceId: '11' },
-                { title: 'Marketing Skits', icon: 'bi bi-camera-reels', serviceId: '12' },
-
-            ]
-        },
-        {
-            category: 'trending-services',
-            gigs: [
-                { title: 'Graphics Design', icon: 'bi bi-palette', serviceId: '4' },
-                { title: 'Delivery Service', icon: 'bi bi-bicycle', serviceId: '5' },
-                { title: 'Article Writting & Content', icon: 'bi bi-pen', serviceId: '6' },
-
-                { title: 'Real Estate Services', icon: 'bi bi-house', serviceId: '7' },
-                { title: 'Presentation Design', icon: 'bi bi-easel', serviceId: '8' },
-                { title: 'Virtual Assitance', icon: 'bi bi-laptop', serviceId: '9' },
-
-            ]
-        },
-        {
-            category: 'other-services',
-            gigs: [
-                { title: 'Real Estate Services', icon: 'bi bi-house', serviceId: '7' },
-                { title: 'Presentation Design', icon: 'bi bi-easel', serviceId: '8' },
-                { title: 'Virtual Assitance', icon: 'bi bi-laptop', serviceId: '9' },
-
-                { title: 'Media Services & Jinggles', icon: 'bi bi-camera-reels', serviceId: '10' },
-                { title: 'Consultation Services', icon: 'bi bi-pc-display-horizontal', serviceId: '11' },
-                { title: 'Marketing Skits', icon: 'bi bi-camera-reels', serviceId: '12' },
-
-            ]
-        }
-    ]
 
     const ourValues = [
         {
@@ -114,21 +97,26 @@ const [transit,setTransit] = useState(false);
         },
     ]
 
-    const handleNextService = (currentServ: number) => {
+    const handleNextService = () => {
         setTransit(!transit)
-        if (currentServ == services.length - 1) {
-            setCurrentService(0)
+        if (currentServicesPage == allServicePageNumber) {
+            setCurrentServicesPage(1);
+            setRefData(!refData)
         } else {
-            setCurrentService(curr => curr + 1)
+            setCurrentServicesPage(currentServicesPage + 1);
+            setRefData(!refData)
         }
 
     }
 
-    const handlePrevService = (currentServ: number) => {
-        if (currentServ == 0) {
-            setCurrentService(services.length - 1)
+    const handlePrevService = () => {
+        setTransit(!transit)
+        if (currentServicesPage == 1) {
+            setCurrentServicesPage(1)
+            setRefData(!refData)
         } else {
-            setCurrentService(curr => curr - 1)
+            setCurrentServicesPage(curr => curr - 1)
+            setRefData(!refData)
         }
 
     }
@@ -146,7 +134,6 @@ const [transit,setTransit] = useState(false);
                             signUpClicked={() => setRegModal(true)}
                             togSide={() => setOnSideNav(!onSideNav)} />
                         <div className="w-100 section-one bg-primary text-light px-4">
-
                             <div className="left d-flex flex-column mt-4 gap-2">
                                 <h5 className="fw-bolder fs-1">
                                     Empowering Nigerians with
@@ -160,7 +147,12 @@ const [transit,setTransit] = useState(false);
                                     for job seekers and  employers to   collaborate
                                     and thrive in a flexible work environment.
                                 </p>
-                                <form className="d-flex justify-content-end align-items-center" style={{ position: 'relative' }}>
+                                <div className="d-flex gap-2">
+                                <img role="button" src={playstore} height={50}/>
+                                <img role="button" src={appstore} height={50}/>
+                                
+                                </div>
+                                <form className="d-flex justify-content-end align-items-center mt-3" style={{ position: 'relative' }}>
                                     <FormControl
                                         style={{ minHeight: '3.5em' }}
                                         placeholder="Search for any service..."
@@ -182,13 +174,15 @@ const [transit,setTransit] = useState(false);
                         <div className="w-100 available-services mt-3 section-two">
 
                             <h3 className="text-center">Available Services</h3>
-                            <div className="w-100 d-flex px-2 justify-content-center align-items-center mt-4">
-                                <i className="bi bi-chevron-left" role="button" onClick={() => handlePrevService(currentService)}></i>
-                                <div className="d-flex px-0 gap-2  justify-content-center align-items-center service-holder"
+                            <div className="w-100 d-flex px-2 justify-content-center gap-0 align-items-center mt-4">
+                                <i className="bi bi-arrow-left-circle-fill text-primary" role="button" onClick={() => handlePrevService()}
+                                style={{fontSize:'1.5em'}}
+                                    ></i>
+                                <div className="d-flex w-50 px-0 gap-2  justify-content-center align-items-center service-holder"
                                     style={{ flexWrap: 'wrap', transition: 'all 1s ease-in' }}>
                                     {
-                                        services[currentService].gigs.map((serv: any, index: number) => (
-                                            <div key={index} className={`d-flex flex-column card-holder gap-2 align-items-center ${ transit && 'slide-form'}`}
+                                        services.map((serv: IService, index: number) => (
+                                            <div role="button" key={index} className={`d-flex flex-column card-holder gap-2 align-items-center ${transit && 'slide-form'}`}
                                                 style={{ maxWidth: '7em', maxHeight: '10em', }}>
                                                 <Card className="shadow-lg border-0 card"
                                                     style={{ minWidth: '6em', minHeight: '6em' }}>
@@ -203,7 +197,8 @@ const [transit,setTransit] = useState(false);
                                         ))
                                     }
                                 </div>
-                                <i className="bi bi-chevron-right" role="button" onClick={() => handleNextService(currentService)}></i>
+                                <i className="bi bi-arrow-right-circle-fill text-primary" role="button" onClick={() => handleNextService()}
+                                    style={{fontSize:'1.5em'}}></i>
                             </div>
                         </div>
 

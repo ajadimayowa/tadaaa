@@ -12,7 +12,7 @@ if (dev) {
 // console.log({ currentEnv: baseURL })
 
 const api = axios.create({
-    baseURL: baseURL, // replace with your API base URL
+    baseURL: `${baseURL}/api/`, // replace with your API base URL
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json',
