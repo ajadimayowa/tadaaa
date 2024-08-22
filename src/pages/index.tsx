@@ -108,7 +108,6 @@ const HomePage = () => {
         }
 
     }
-
     const handlePrevService = () => {
         setTransit(!transit)
         if (currentServicesPage == 1) {
@@ -171,10 +170,12 @@ const HomePage = () => {
 
                         </div>
 
-                        <div className="w-100 available-services mt-3 section-two">
+                        {
+                            services.length>0 &&
+                            <div className="w-100 available-services mt-3 section-two">
 
                             <h3 className="text-center">Available Services</h3>
-                            <div className="w-100 d-flex px-2 justify-content-center gap-0 align-items-center mt-4">
+                            <div className="w-100 d-flex px-4 justify-content-center align-items-center mt-4">
                                 <i className="bi bi-arrow-left-circle-fill text-primary" role="button" onClick={() => handlePrevService()}
                                 style={{fontSize:'1.5em'}}
                                     ></i>
@@ -200,7 +201,7 @@ const HomePage = () => {
                                 <i className="bi bi-arrow-right-circle-fill text-primary" role="button" onClick={() => handleNextService()}
                                     style={{fontSize:'1.5em'}}></i>
                             </div>
-                        </div>
+                        </div>}
 
                         <div className="d-flex text-center p-3">
 
@@ -239,13 +240,13 @@ const HomePage = () => {
 
                         <div className="w-100 mt-4 section-4">
 
-                            <h3 className="px-2 w-75">
+                            <h3 className="px-3 w-75">
                                 Connecting you to a whole new approach to service delivery.
                             </h3>
 
                         </div>
 
-                        <div className="w-100 mt-5 section-5">
+                        <div className="w-100 mt-5 px-3 section-5">
                             {
                                 ourValues.map((values, index: number) =>
                                     <div key={index} className="px-2 gap-3 d-flex flex-column">

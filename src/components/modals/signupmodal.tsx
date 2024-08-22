@@ -6,6 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from 'yup';
 import { createUser,verifyUser } from "../../app/controllers/auth";
 import { toast } from "react-toastify";
+import { generateVerificationLink, otpGenerator } from "../../helpers";
 
 
 
@@ -60,18 +61,18 @@ const SignupModal: React.FC<any> = ({ on, off, onLogin }) => {
     const [currentStep, setCurrentStep] = useState(0);
 
     const handleCreateUser = async (userCred: any) => {
+        const otp=otpGenerator();
+       const verifyLink = generateVerificationLink(userCred.email,otp)
         try {
-            const res = await createUser(userCred);
-            // console.log(res);
-            if (res.success) {
+            const res = await createUser({...userCred, otpCode:otp,verificationLink:verifyLink});
+            console.log({seeUs:res});
+            if (res.data?.success) {
                 setLoading(false);
-                toast.success('User created! OTP code sent to your mail')
+                toast.success('User created! Check your mail!! or login and verify later')
                 setVerify(true)
-            } else if (res.status == 409) {
-                toast.error('User exist!')
-                setLoading(false);
-            } else {
-                toast.error('Error creating user!');
+            } 
+            else {
+                toast.error(res.data.message);
                 setLoading(false)
             }
         } catch (error: any) {
@@ -82,6 +83,7 @@ const SignupModal: React.FC<any> = ({ on, off, onLogin }) => {
     }
 
     const handleNextStep = (newData: any, final: boolean) => {
+        console.log(newData)
         if (final) {
 
             setLoading(true);

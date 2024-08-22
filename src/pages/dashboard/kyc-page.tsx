@@ -11,7 +11,7 @@ import { doUserKyc } from "../../app/controllers/user";
 const KycPage = () => {
     const navigate = useNavigate();
     const [loading,setLoading] = useState(false);
-    const { username } = useParams();
+    const { userId } = useParams();
 
 
     // interface IService {
@@ -32,7 +32,7 @@ const KycPage = () => {
         profilePic:null,
         secondaryAddress:'',
         primaryAddress: '',
-        username: username
+        userId: userId
     })
 
     const handleSubmit = async (data: any, lastPage: boolean) => {
@@ -47,7 +47,7 @@ const KycPage = () => {
             formData.append('primaryAddress',data.primaryAddress)
             formData.append('secondaryAddress',data.secondaryAddress)
             formData.append('profilePic',data.profilePic)
-            formData.append('username',data.username)
+            formData.append('userId',data.userId)
             const res = await doUserKyc(formData);
             if (res.success) {
                 setLoading(false);

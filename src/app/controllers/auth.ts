@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import api from "./api";
 
 interface Resource {
@@ -15,11 +15,11 @@ interface Resource {
 }
 
 interface IPromsie {
-  data: {payload:object,userToken:string},
+  data: { payload: object, userToken: string },
   status: number,
   statusText: string,
-  message:string,
-  success:boolean
+  message: string,
+  success: boolean
 
   // `headers` the HTTP headers that the server responded with
   // All header names are lower cased and can be accessed using the bracket notation.
@@ -62,28 +62,21 @@ export const loginUser = async (resourceData: Resource): Promise<IPromsie> => {
   }
 };
 
-export const createUser = async (resourceData: Resource): Promise<IPromsie> => {
+export const createUser = async (resourceData: any): Promise<AxiosResponse> => {
+  console.log({creatingWith:resourceData})
   try {
     const response = await api.post('/register', resourceData);
-    return response.data;
+    return response
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.error('Axios error:', error.response?.data);
-      // throw new Error('Failed to create resource.');
-      return error.response?.data
+    return error.response
 
-    } else {
-      console.error('Non-Axios error:', error);
-      return error.response
-      // throw new Error('An unexpected error occurred.');
-    }
   }
 };
 
 const verifyUser = async (resourceData: any): Promise<IPromsie> => {
-  console.log({sendingThis:resourceData})
+  // console.log({ sendingThis: resourceData })
   try {
-    const response = await api.post(resourceData.url,resourceData.body);
+    const response = await api.post(resourceData.url, resourceData.body);
     return response.data;
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
@@ -102,10 +95,10 @@ const verifyUser = async (resourceData: any): Promise<IPromsie> => {
 
 
 
-export const createNewService = async (resourceData: Partial<Resource>): Promise<Resource> => {
+export const createNewGig = async (resourceData: any): Promise<AxiosResponse> => {
   try {
-    const response = await api.post<Resource>(`/create-todo?userName=${resourceData.username}`, resourceData);
-    return response.data;
+    const response = await api.post<Resource>(`/create-gig?userId=${resourceData.userId}`, resourceData);
+    return response;
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       console.error('Axios error:', error.response?.data);

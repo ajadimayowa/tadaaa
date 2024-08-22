@@ -4,8 +4,9 @@ import DashboardContainer from "./pages/dashboard/dashboardContainer";
 import DashboardPage from "./pages/dashboard/dashboardPage";
 import ErrorPage from "./pages/unsecured/error-page";
 import './custom.scss'
-import CreateServicePage from "./pages/dashboard/create-service-page";
+import CreateServicePage from "./pages/dashboard/create-gig-page";
 import KycPage from "./pages/dashboard/kyc-page";
+import OtpVerificationPage from "./pages/unsecured/verification-page";
 
 
 export default () => {
@@ -13,10 +14,11 @@ export default () => {
         <Routes>
             <Route path="*" element={<ErrorPage />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="/verify" element={<OtpVerificationPage />} />
             <Route path="/dashboard" element={<DashboardContainer />}>
                 <Route index element={<DashboardPage />} />
-                <Route path="create-service/:username" element={<CreateServicePage />} />
-                <Route path="complete-kyc/:username" element={<KycPage />} />
+                <Route path="create-gig/:userId" element={<CreateServicePage />} />
+                <Route path="complete-kyc/:userId" element={<KycPage />} />
             </Route>
         </Routes>
     )

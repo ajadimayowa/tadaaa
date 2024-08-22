@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ServiceStepOne, ServiceStepTwo } from '../../components/multi-parts/create-service';
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import { createNewService } from "../../app/controllers/auth";
+import { createNewGig} from "../../app/controllers/auth";
 
 
 
@@ -11,7 +11,8 @@ import { createNewService } from "../../app/controllers/auth";
 const CreateServicePage = () => {
     const navigate = useNavigate();
     const [loading,setLoading] = useState(false);
-    const { username } = useParams();
+    const { userId } = useParams();
+    
 
 
     // interface IService {
@@ -31,27 +32,28 @@ const CreateServicePage = () => {
         proposedPay: 0,
         category: '',
         actualCost: 0,
-        username: username
+        userId: userId
     })
 
     const handleSubmit = async (data: any, lastPage: boolean) => {
         if (lastPage) {
+           try {
             setLoading(true);
             // console.log({ sending: data })
-            const res = await createNewService(data);
-            if (res.data) {
+            const res = await createNewGig(data);
+            if (res.data.success) {
                 setLoading(false);
                 toast.success('Service created succesfully')
                 navigate(-1)
-            } else if(res.code == 400) {
-                toast.error('Error creating service')
-                setLoading(false);
-            } else if(res.code == 401) {
-                toast.error('Unauthorised user!');
+            } else {
+                toast.error('Error creating gig');
                 navigate('/');
                 setLoading(false);
             }
-            return
+           } catch (error) {
+            console.log(error);
+            setLoading(false);
+           }
         } else {
             setInitialValue(prevData => ({ ...prevData, ...data }));
             setCurrentStep(prevStep => (prevStep + 1))
@@ -64,6 +66,7 @@ const CreateServicePage = () => {
         setCurrentStep(prevStep => (prevStep - 1))
 
     }
+    
 
 
     const creationSteps = [

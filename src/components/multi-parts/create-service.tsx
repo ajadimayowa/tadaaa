@@ -1,22 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import { Field, Form, ErrorMessage, Formik } from "formik";
 import * as yup from 'yup';
 import { useNavigate } from "react-router-dom";
+import { IService } from "../../interfaces/service";
+import api from "../../app/controllers/api";
+import { toast } from "react-toastify";
 
 export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) => {
-   
+
     const navigate = useNavigate();
+    const [services, setServices] = useState<IService[]>([]);
+    const [refData, setRefData] = useState(false);
+
+    const getServices = async (limit: number, page: number) => {
+        const res = await api.get(`services?limit=${limit}&page=${page}`);
+        if (res.data) {
+            return { success: true, loading: false, data: res.data }
+        } else {
+            return { success: false, loading: false, error: res.statusText }
+        }
+
+    }
+
+    const handleGetServices = async () => {
+        const res = await getServices(10, 1)
+        console.log(res)
+        if (res.success) {
+            setServices(res.data?.services);
+            // setAllServicePageNumber(res.data.totalPages);
+        } else {
+            toast.error(res.error)
+        }
+    }
+
+    useEffect(() => {
+        handleGetServices()
+    }, [refData])
 
     const handleSubmit = (val: any) => {
-        
-        handleStepDataSubmit(val)
+        handleStepDataSubmit(val);
+        setRefData(!refData)
     }
 
     const valSchema = yup.object({
         title: yup.string().min(3).required().label('Title'),
-        description : yup.string().min(10).required('Give a brief description').label('Description'),
-        category : yup.string().min(10).required('Select a category').label('Category'),
+        description: yup.string().min(10).required('Give a brief description').label('Description'),
+        category: yup.string().required('Select a category').label('Category'),
     })
 
 
@@ -24,23 +54,23 @@ export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) =>
         <Formik
             onSubmit={handleSubmit}
             initialValues={data}
-        validationSchema={valSchema}
+            validationSchema={valSchema}
         >
             {
                 ({ handleSubmit, values }) => (
                     <Form onSubmit={handleSubmit} className="gap-0 slide-form">
                         {
                             <>
-                                 <p
-                                            className="fw-bold d-flex gap-2"
-                                            role="button"
-                                            onClick={() => 
-                                            navigate(-1)
-                                            }
-                                        >
-                                            <i className="bi bi-arrow-left"></i>
-                                            Back
-                                        </p>
+                                <p
+                                    className="fw-bold d-flex gap-2"
+                                    role="button"
+                                    onClick={() =>
+                                        navigate(-1)
+                                    }
+                                >
+                                    <i className="bi bi-arrow-left"></i>
+                                    Back
+                                </p>
                                 <h5 className="fw-bold">
                                     Create a new Gig
                                 </h5>
@@ -88,14 +118,11 @@ export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) =>
                                         className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
                                         id='category' name='category'>
                                         <option value={''}>Select</option>
-                                        <option value={'Fashion & Tailoring'}>Fashion & Tailoring</option>
-                                        <option value={'Resumee & Article Writting'}>Resumee & Article Writting</option>
-                                        <option value={'Programing & Tech'}>Programing & Tech</option>
-                                        <option value={'Delivery Business'}>Delivery Business</option>
-                                        <option value={'Virtual Assistant'}>Virtual Assistant</option>
-                                        <option value={'Presentation Design'}>Presentation Design</option>
-                                        <option value={'Skit & Marketing Content'}>Skit & Marketing Content</option>
-                                        <option value={'Other Services'}>Other Services</option>
+                                        {
+                                            services.map((service: IService) => (
+                                                <option value={service._id}>{service.title}</option>
+                                            ))
+                                        }
                                     </Field>
 
                                     <ErrorMessage
@@ -123,9 +150,9 @@ export const ServiceStepOne: React.FC<any> = ({ handleStepDataSubmit, data }) =>
 }
 
 export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, finalPage, gotoPrev, loading }) => {
-   
+
     const handleSubmit = (val: any) => {
-      
+
         handleStepDataSubmit(val, finalPage)
     }
 
@@ -145,7 +172,7 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
         <Formik
             onSubmit={handleSubmit}
             initialValues={data}
-        validationSchema={valSchema}
+            validationSchema={valSchema}
         >
             {
                 ({ handleSubmit, values }) => (
@@ -163,20 +190,20 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
                                 </h5> */}
 
                                 <p
-                                            className="fw-bold d-flex gap-2"
-                                            role="button"
-                                            onClick={handlePrev}
-                                        >
-                                            <i className="bi bi-arrow-left"></i>
-                                            Prev
-                                        </p>
+                                    className="fw-bold d-flex gap-2"
+                                    role="button"
+                                    onClick={handlePrev}
+                                >
+                                    <i className="bi bi-arrow-left"></i>
+                                    Prev
+                                </p>
 
                                 <label className="mt-3 fw-bold" htmlFor="userEmail">
                                     How much will you charge?
                                 </label>
                                 <div>
                                     <Field
-                                    value={values.proposedPay}
+                                        value={values.proposedPay}
                                         placeholder="(N)"
                                         type='number'
                                         className="rounded rounded-1 p-2 outline form-control-outline w-100 border border-1 border-grey"
@@ -214,7 +241,7 @@ export const ServiceStepTwo: React.FC<any> = ({ handleStepDataSubmit, data, fina
                                         type='submit'
                                         disabled={loading}
                                         className="outline-0 w-100 border border-0 p-2  bg-dark text-light mt-3"
-                                    >{loading?<Spinner size="sm"/> : 'Submit'}</Button>
+                                    >{loading ? <Spinner size="sm" /> : 'Submit'}</Button>
                                 </div>
 
 

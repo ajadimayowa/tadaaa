@@ -88,7 +88,7 @@ const DashboardPage = () => {
                 </div>
                 
                 <Button
-                    onClick={() => navigate(`create-service/${userId}`)}
+                    onClick={() => navigate(`create-gig/${userId}`)}
                     className="text-light py-2 shadow-lg"
                     >Become a seller</Button>
             </div>
