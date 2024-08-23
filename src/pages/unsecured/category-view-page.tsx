@@ -58,7 +58,7 @@ const CategoryViewPage = () => {
 
                             ))}
                             {
-                              gigs.length <= 0  && <p>No Data Available</p>
+                              gigs.length <= 0  && <p className="fw-bold">No Data Available</p>
                             }
                         </div>
                 }
