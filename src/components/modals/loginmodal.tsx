@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Modal} from "react-bootstrap";
 import style from '../modals/signupmodal.module.css'
 import { ForgotPasswordComponent, LoginUserComponent } from "../multi-parts/handle-user-auth";
+import { fundingURL } from "../../app/config";
 
 
 
@@ -90,7 +91,7 @@ const LoginModal: React.FC<any> = ({ on, off }) => {
 
                                 <p className="text-center">
                                     We need funding. <br/>
-                                   Kindly Click <a href="https://wa.me/2348166064166" target="_blank">here</a> to support us.
+                                   Kindly Click <a href={fundingURL} target="_blank">here</a> to support us.
                                 </p>
                             </div>
 

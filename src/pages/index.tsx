@@ -133,6 +133,7 @@ const HomePage = () => {
                             signUpClicked={() => setRegModal(true)}
                             togSide={() => setOnSideNav(!onSideNav)} />
                         <div className="w-100 section-one bg-primary text-light px-4">
+                            
                             <div className="left d-flex flex-column mt-4 gap-2">
                                 <h5 className="fw-bolder fs-1">
                                     Empowering Nigerians with
@@ -183,7 +184,7 @@ const HomePage = () => {
                                     style={{ flexWrap: 'wrap', transition: 'all 1s ease-in' }}>
                                     {
                                         services.map((serv: IService, index: number) => (
-                                            <div role="button" key={index} className={`d-flex flex-column card-holder gap-2 align-items-center ${transit && 'slide-form'}`}
+                                            <div onClick={()=>navigate(`/category-view/${serv._id}`)} role="button" key={index} className={`d-flex flex-column card-holder gap-2 align-items-center ${transit && 'slide-form'}`}
                                                 style={{ maxWidth: '7em', maxHeight: '10em', }}>
                                                 <Card className="shadow-lg border-0 card"
                                                     style={{ minWidth: '6em', minHeight: '6em' }}>
