@@ -36,7 +36,7 @@ const TopBarUnAuth: React.FC<any> = ({ loginClicked, togSide, signUpClicked }) =
             </div>
             </div>
             
-            <p className="p-0 m-0 w-100 text-center text-warning">We Need Funding  <a style={{textDecoration:'none'}} className="text-light rounded p-1 py-0 bg-info text-center m-1" href={fundingURL}>Click here </a> to support us</p>
+            <p className="p-0 m-0 w-100 text-center text-warning">We Need Funding  <a style={{textDecoration:'none'}} className="text-light rounded p-1 py-0 bg-info text-center m-1" role="button" href={fundingURL}>Click here </a> to support us</p>
             
         </div>
     )
