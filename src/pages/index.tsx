@@ -83,6 +83,16 @@ const HomePage = () => {
 
     ]
 
+    const trendingServices = [
+        { title: 'Fashion & Tailoring', icon: 'bi bi-scissors', serviceId: '1',colorCode:'#00732E' },
+                { title: 'Software Development', icon: 'bi bi-pc-display-horizontal', serviceId: '2',colorCode:'#8F2900' },
+                { title: 'Marketing Skits', icon: 'bi bi-camera-reels', serviceId: '3',colorCode:'#687200' },
+
+                { title: 'Media Services & Jinggles', icon: 'bi bi-camera-reels', serviceId: '10',colorCode:'#BE5272' },
+                { title: 'Consultation Services', icon: 'bi bi-pc-display-horizontal', serviceId: '11',colorCode:'#687200' },
+                { title: 'Marketing Skits', icon: 'bi bi-camera-reels', serviceId: '12',colorCode:'#8F2900' }
+    ]
+
     const handleNextService = () => {
         setTransit(!transit)
         if (currentServicesPage == allServicePageNumber) {
@@ -205,6 +215,39 @@ const HomePage = () => {
                                     style={{ transition: 'all 1s ease-in', overflowX: 'scroll', maxWidth: '100%' }}>
                                     {
                                         allServices.map((serv: any, index: number) => (
+                                            <div onClick={() => navigate(`/category-view/${serv._id}`)} key={index} role="button" className=""
+                                                style={{ minWidth: '10em', maxHeight: '15em', minHeight: '15em' }}>
+                                                <Card className="shadow-sm border-0"
+                                                    style={{ minWidth: '10em', minHeight: '14em', backgroundColor: serv.colorCode }}>
+                                                    <Card.Body className="text-light">
+                                                        <p className="niramit-semibold text-start"
+                                                            style={{ textWrap: 'wrap', wordWrap: 'break-word' }}>{serv.title}</p>
+                                                        <Card className="bg-light d-flex justify-content-center align-items-center w-100" style={{minHeight:'7em'}}>
+                                                            <i className={` ${serv.icon}`} style={{ fontSize: '2em' }}></i>
+                                                        </Card>
+                                                    </Card.Body>
+                                                </Card>
+
+                                            </div>
+
+                                        ))
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div className="w-100 mt-3 section-three" id="section-three">
+
+                            <h3 className="text-center">Hot Services</h3>
+                            <div className="w-100 d-flex gap-2 px-2 justify-content-center align-items-center mt-4">
+                                {/* <i className="bi bi-chevron-left" role="button" onClick={() => handlePrevServicePop(currentServicePopular)}></i> */}
+                                <div  className="d-flex gap-3 w-100  align-items-center slide-form"
+                                
+                                    id="services"
+                                    style={{ transition: 'all 1s ease-in', overflowX: 'scroll', maxWidth: '100%' }}>
+                                    {
+                                        trendingServices.map((serv: any, index: number) => (
                                             <div onClick={() => navigate(`/category-view/${serv._id}`)} key={index} role="button" className=""
                                                 style={{ minWidth: '10em', maxHeight: '15em', minHeight: '15em' }}>
                                                 <Card className="shadow-sm border-0"
