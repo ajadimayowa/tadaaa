@@ -20,10 +20,10 @@ const HomePage = () => {
     const [loginModal, setLoginModal] = useState(false);
     const [onSideNav, setOnSideNav] = useState(false);
     const [services, setServices] = useState<IService[]>([]);
-    const [currentServicesPage,setCurrentServicesPage] = useState(1);
-    const [allServicePageNumber,setAllServicePageNumber] = useState(1);
+    const [allServices, setAllServices] = useState<IService[]>([]);
+    const [currentServicesPage, setCurrentServicesPage] = useState(1);
+    const [allServicePageNumber, setAllServicePageNumber] = useState(1);
     const [refData, setRefData] = useState(false);
-    const currentServicePopular = 0;
     const [transit, setTransit] = useState(false);
 
     const LoadingPage = () => {
@@ -37,20 +37,22 @@ const HomePage = () => {
         )
     }
 
-   const handleGetServices = async ()=>{
-    const res= await getServices(6,currentServicesPage)
-    console.log(res)
-    if(res.success){
-        setServices(res.data?.services);
-        setAllServicePageNumber(res.data.totalPages);
-    } else {
-        toast.error(res.error)
+    const handleGetServices = async () => {
+        const res = await getServices(6, currentServicesPage)
+        const resAll = await getServices(15, currentServicesPage)
+        console.log(res)
+        if (res.success) {
+            setServices(res.data?.services);
+            setAllServices(resAll.data?.services);
+            setAllServicePageNumber(res.data.totalPages);
+        } else {
+            toast.error(res.error)
+        }
     }
-   }
 
-   useEffect(()=>{
-    handleGetServices()
-   },[refData])
+    useEffect(() => {
+        handleGetServices()
+    }, [refData])
 
 
     const ourValues = [
@@ -79,22 +81,6 @@ const HomePage = () => {
                 'Chat with our team to get your questions answered or resolve any issues with your orders.'
         }
 
-    ]
-
-    const porpularServices = [
-        {
-            category: 'all-service',
-            gigs: [
-                { title: 'Fashion & Tailoring', icon: 'bi bi-scissors', serviceId: '1', color: '#071952' },
-                { title: 'Software Development', icon: 'bi bi-pc-display-horizontal', serviceId: '2', color: '#FFB200' },
-                { title: 'Graphics Design', icon: 'bi bi-palette', serviceId: '4', color: '#1679AB' },
-                { title: 'Delivery Service', icon: 'bi bi-bicycle', serviceId: '5', color: '#3FA2F6' },
-                { title: 'Fashion & Tailoring', icon: 'bi bi-scissors', serviceId: '1', color: '#EB5B00' },
-                { title: 'Software Development', icon: 'bi bi-pc-display-horizontal', serviceId: '2', color: '#E4003A' },
-                { title: 'Graphics Design', icon: 'bi bi-palette', serviceId: '4', color: '#B60071' },
-
-            ]
-        },
     ]
 
     const handleNextService = () => {
@@ -133,7 +119,7 @@ const HomePage = () => {
                             signUpClicked={() => setRegModal(true)}
                             togSide={() => setOnSideNav(!onSideNav)} />
                         <div className="w-100 section-one bg-primary text-light px-4">
-                            
+
                             <div className="left d-flex flex-column mt-4 gap-2">
                                 <h5 className="fw-bolder fs-1">
                                     Empowering Nigerians with
@@ -148,9 +134,9 @@ const HomePage = () => {
                                     and thrive in a flexible work environment.
                                 </p>
                                 <div className="d-flex gap-2">
-                                <img role="button" src={playstore} height={50}/>
-                                <img role="button" src={appstore} height={50}/>
-                                
+                                    <img role="button" src={playstore} height={50} />
+                                    <img role="button" src={appstore} height={50} />
+
                                 </div>
                                 <form className="d-flex justify-content-end align-items-center mt-3" style={{ position: 'relative' }}>
                                     <FormControl
@@ -172,37 +158,37 @@ const HomePage = () => {
                         </div>
 
                         {
-                            services.length>0 &&
+                            services.length > 0 &&
                             <div className="w-100 available-services mt-3 section-two">
 
-                            <h3 className="text-center">Available Services</h3>
-                            <div className="w-100 d-flex px-4 justify-content-center align-items-center mt-4">
-                                <i className="bi bi-arrow-left-circle-fill text-primary" role="button" onClick={() => handlePrevService()}
-                                style={{fontSize:'1.5em'}}
+                                <h3 className="text-center">Available Services</h3>
+                                <div className="w-100 d-flex px-4 justify-content-center align-items-center mt-4">
+                                    <i className="bi bi-arrow-left-circle-fill text-primary" role="button" onClick={() => handlePrevService()}
+                                        style={{ fontSize: '1.5em' }}
                                     ></i>
-                                <div className="d-flex w-50 px-0 gap-2  justify-content-center align-items-center service-holder"
-                                    style={{ flexWrap: 'wrap', transition: 'all 1s ease-in' }}>
-                                    {
-                                        services.map((serv: IService, index: number) => (
-                                            <div onClick={()=>navigate(`/category-view/${serv._id}`)} role="button" key={index} className={`d-flex flex-column card-holder gap-2 align-items-center ${transit && 'slide-form'}`}
-                                                style={{ maxWidth: '7em', maxHeight: '10em', }}>
-                                                <Card className="shadow-lg border-0 card"
-                                                    style={{ minWidth: '6em', minHeight: '6em' }}>
-                                                    <Card.Body className="d-flex flex-column align-items-center justify-content-center">
-                                                        <i className={` ${serv.icon}`} style={{ fontSize: '2em' }}></i>
-                                                    </Card.Body>
-                                                </Card>
-                                                <p className="niramit-semibold text-center"
-                                                    style={{ textWrap: 'wrap', wordWrap: 'break-word' }}>{serv.title}</p>
-                                            </div>
+                                    <div className="d-flex w-50 px-0 gap-2  justify-content-center align-items-center service-holder"
+                                        style={{ flexWrap: 'wrap', transition: 'all 1s ease-in' }}>
+                                        {
+                                            services.map((serv: IService, index: number) => (
+                                                <div onClick={() => navigate(`/category-view/${serv._id}`)} role="button" key={index} className={`d-flex flex-column card-holder gap-2 align-items-center ${transit && 'slide-form'}`}
+                                                    style={{ maxWidth: '7em', maxHeight: '10em', }}>
+                                                    <Card className="shadow-lg border-0 card"
+                                                        style={{ minWidth: '6em', minHeight: '6em' }}>
+                                                        <Card.Body className="d-flex flex-column align-items-center justify-content-center">
+                                                            <i className={` ${serv.icon}`} style={{ fontSize: '2em' }}></i>
+                                                        </Card.Body>
+                                                    </Card>
+                                                    <p className="niramit-semibold text-center"
+                                                        style={{ textWrap: 'wrap', wordWrap: 'break-word' }}>{serv.title}</p>
+                                                </div>
 
-                                        ))
-                                    }
+                                            ))
+                                        }
+                                    </div>
+                                    <i className="bi bi-arrow-right-circle-fill text-primary" role="button" onClick={() => handleNextService()}
+                                        style={{ fontSize: '1.5em' }}></i>
                                 </div>
-                                <i className="bi bi-arrow-right-circle-fill text-primary" role="button" onClick={() => handleNextService()}
-                                    style={{fontSize:'1.5em'}}></i>
-                            </div>
-                        </div>}
+                            </div>}
 
                         <div className="d-flex text-center p-3">
 
@@ -213,20 +199,22 @@ const HomePage = () => {
                             <h3 className="text-center">Most Wanted Services</h3>
                             <div className="w-100 d-flex gap-2 px-2 justify-content-center align-items-center mt-4">
                                 {/* <i className="bi bi-chevron-left" role="button" onClick={() => handlePrevServicePop(currentServicePopular)}></i> */}
-                                <div className="d-flex gap-3 w-100  align-items-center slide-form"
+                                <div  className="d-flex gap-3 w-100  align-items-center slide-form"
+                                
                                     id="services"
                                     style={{ transition: 'all 1s ease-in', overflowX: 'scroll', maxWidth: '100%' }}>
                                     {
-                                        porpularServices[currentServicePopular].gigs.map((serv: any, index: number) => (
-                                            <div key={index} className="d-flex flex-column align-items-center gap-2"
+                                        allServices.map((serv: any, index: number) => (
+                                            <div onClick={() => navigate(`/category-view/${serv._id}`)} key={index} role="button" className=""
                                                 style={{ minWidth: '10em', maxHeight: '15em', minHeight: '15em' }}>
                                                 <Card className="shadow-sm border-0"
-                                                    style={{ minWidth: '10em', minHeight: '14em', backgroundColor: serv.color }}>
-                                                    <Card.Body className="d-flex text-light flex-column align-items-center justify-content-center">
-                                                        <i className={` ${serv.icon}`} style={{ fontSize: '2em' }}></i>
-
-                                                        <p className="niramit-semibold text-center"
+                                                    style={{ minWidth: '10em', minHeight: '14em', backgroundColor: serv.colorCode }}>
+                                                    <Card.Body className="text-light">
+                                                        <p className="niramit-semibold text-start"
                                                             style={{ textWrap: 'wrap', wordWrap: 'break-word' }}>{serv.title}</p>
+                                                        <Card className="bg-light d-flex justify-content-center align-items-center w-100" style={{minHeight:'7em'}}>
+                                                            <i className={` ${serv.icon}`} style={{ fontSize: '2em' }}></i>
+                                                        </Card>
                                                     </Card.Body>
                                                 </Card>
 

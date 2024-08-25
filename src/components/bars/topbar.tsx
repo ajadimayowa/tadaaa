@@ -3,9 +3,10 @@ import { Button } from "react-bootstrap";
 import style from './topbar.module.css';
 import logo from '../../assets/svgs/logo-wok9ja.svg'
 import { fundingURL } from "../../app/config";
+import { useNavigate } from "react-router-dom";
 
 const TopBarUnAuth: React.FC<any> = ({ loginClicked, togSide, signUpClicked }) => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const links = [
         { title: 'Go-pro', path: '' },
@@ -13,10 +14,10 @@ const TopBarUnAuth: React.FC<any> = ({ loginClicked, togSide, signUpClicked }) =
     ]
     return (
         <div className={`navbar sticky-top px-4 bg-primary text-light align-items-center justify-content-between w-100 ${style.topBar}`}
-            style={{ minHeight: '70px' }}>
+            style={{ minHeight: '75px' }}>
                 <div className="d-flex w-100 align-items-center justify-content-between">
                <span onClick={togSide}> <i className="menu bi bi-list fs-1" id="menu" role="button"></i> </span>
-            <img className="" src={logo} height={27} />
+            <img className="" role="button" src={logo} height={50} onClick={()=>navigate('/')}/>
             <div className="d-flex gap-5 align-items-center">
                 <ul className="gap-5 m-0 p-0">
                     {
@@ -36,7 +37,7 @@ const TopBarUnAuth: React.FC<any> = ({ loginClicked, togSide, signUpClicked }) =
             </div>
             </div>
             
-            <p className="p-0 m-0 w-100 text-center text-warning">We Need Funding  <a style={{textDecoration:'none'}} className="text-light rounded p-1 py-0 bg-info text-center m-1" role="button" href={fundingURL}>Click here </a> to support us</p>
+            <p className="p-0 m-0 mt-3 w-100 text-center text-light">We Need Funding kindly  <a style={{textDecoration:'none'}} className="text-secondary text-center m-1" role="button" href={fundingURL}>Tap here </a> to support us.</p>
             
         </div>
     )
